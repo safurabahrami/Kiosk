@@ -1,3 +1,4 @@
+import { toFixedPrecision } from '../util';
 export const getInventory = state => state.products.products;
 export const getBasketItems = state => state.basket.basketItems;
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
@@ -22,6 +23,3 @@ export const getProductInventory = (state, productItem) => {
     return productItem.inventory;
 }
 
-const toFixedPrecision = function(num, precision) {
-    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
-}

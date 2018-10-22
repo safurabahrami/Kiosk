@@ -8,6 +8,7 @@ import { getInventory, getBasketItems } from '../redux/selectors';
 
 import InventoryComponent from './InventoryComponent';
 import BasketComponent from './BasketComponent';
+import PriceBoxComponent from './PriceBoxComponent';
 
 const styles = theme => ({
     root: {
@@ -38,6 +39,7 @@ class SelfCheckoutComponent extends React.Component {
                 {/*
                     render the price
                 */}
+                <PriceBoxComponent basketItems={basketItems}/>
             </Paper>
         );
     }

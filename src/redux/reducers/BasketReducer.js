@@ -9,7 +9,7 @@ const initialState = Immutable({
             "productItem": {
                 "id": 1,
                 "name": "Apple",
-                "price": 0.9,
+                "price": 0.33,
                 "inventory": 10
             },
             "quantity": 2
