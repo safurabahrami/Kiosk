@@ -1,4 +1,4 @@
-export const getProducts = state => state.products.products;
+export const getInventory = state => state.products.products;
 export const getBasketItems = state => state.basket.basketItems;
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
 export const getProductsPromo = (state, product) => []
@@ -9,7 +9,8 @@ export const getBasketItem = (state, props) => {
         "product": basketItemState.productItem.name,
         "price": `$${basketItemState.productItem.price} x ${basketItemState.quantity}`,
         "total": basketItemState.productItem.price * basketItemState.quantity,
-        "promos": promos
+        "promos": promos,
+        "quantity": basketItemState.quantity
     }
 }
 

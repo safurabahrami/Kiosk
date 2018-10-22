@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import * as Actions from '../redux/actionCreators/Actions'
-import { getProducts, getBasketItems } from '../redux/selectors';
+import { getInventory, getBasketItems } from '../redux/selectors';
 
 import InventoryComponent from './InventoryComponent';
 import BasketComponent from './BasketComponent';
@@ -24,13 +24,13 @@ class SelfCheckoutComponent extends React.Component {
         await this.props.actions.getProducts();
     }
     render() {
-        const { products, basketItems, classes } = this.props;
+        const { inventory, basketItems, classes } = this.props;
         return(
             <Paper className={classes.root}>
                 {/*
                     render the inventory component
                 */}
-                <InventoryComponent products={products} basketItems={basketItems}/>
+                <InventoryComponent inventory={inventory} basketItems={basketItems}/>
                 {/*
                     render the Basket component
                 */}
@@ -44,7 +44,7 @@ class SelfCheckoutComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    products: getProducts(state),
+    inventory: getInventory(state),
     basketItems: getBasketItems(state)
 });
 

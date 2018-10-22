@@ -15,10 +15,10 @@ const styles = theme => ({
 class InventoryComponent extends React.Component {
     render() {
         const generateKey = index => (`key${index}`);
-        const { products, classes, basketItems} = this.props;
+        const { inventory, classes, basketItems} = this.props;
         return(
             <Paper className={classes.root}>
-                { products.map(product => <InventoryItemComponent key={generateKey(product.id)} product={product} basketItems={basketItems}/>)}
+                { inventory.map(product => <InventoryItemComponent key={generateKey(product.id)} product={product} basketItems={basketItems}/>)}
             </Paper>
         );
     }

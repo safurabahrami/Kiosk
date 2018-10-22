@@ -33,10 +33,19 @@ const generateKey = index => (`key${index}`);
 
 class InventoryItemComponent extends React.Component {
     state = {
-        quantity: 0
+        quantity: 1
+    }
+    validateAdd = (quantity, basketItem, product) => {
+        if (!quantity || quantity == 0
+            || (basketItem &&  Number.parseInt(quantity) +  Number.parseInt(basketItem.quantity) > product.inventory)
+            || (quantity > product.inventory)){
+            return true;
+        }
+        return false;
     }
     validateItemInBasket = (quantity, basketItemQuantity) => {
-        return quantity > 0 && basketItemQuantity >= quantity
+        const enoughItemInBasket = quantity > 0 && basketItemQuantity >= quantity;
+        return enoughItemInBasket;
     }
     validateRemove = (quantity, basketItem) => {
         if (!quantity || !basketItem || !this.validateItemInBasket(quantity,basketItem.quantity)){
@@ -50,7 +59,7 @@ class InventoryItemComponent extends React.Component {
         });
     };
     render(){
-        const { product, classes, basketItem } = this.props;
+        const { product, classes, basketItem, inventory } = this.props;
         const { quantity } = this.state;
         return(
             <div className={classes.root} key={generateKey(product.id)}>
@@ -73,6 +82,7 @@ class InventoryItemComponent extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
+                    disabled={this.validateAdd(quantity, basketItem, product)}
                 >Add
                 </Button>
                 <Button
@@ -88,7 +98,7 @@ class InventoryItemComponent extends React.Component {
 }
 
 const mapStateToProps = (state,props) => ({
-    basketItem: getItemBasketByProduct(state,props.product)
+    basketItem: getItemBasketByProduct(state,props.product),
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(InventoryItemComponent));
