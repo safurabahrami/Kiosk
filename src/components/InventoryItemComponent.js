@@ -5,7 +5,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { getItemBasketByProduct } from '../redux/selectors';
+import { getItemBasketByProduct, getProductInventory } from '../redux/selectors';
+import * as Actions from '../redux/actionCreators/Actions'
 
 const styles = theme => ({
     root: {
@@ -35,31 +36,50 @@ class InventoryItemComponent extends React.Component {
     state = {
         quantity: 1
     }
-    validateAdd = (quantity, basketItem, product) => {
-        if (!quantity || quantity == 0
-            || (basketItem &&  Number.parseInt(quantity) +  Number.parseInt(basketItem.quantity) > product.inventory)
-            || (quantity > product.inventory)){
+    validateAdd = (quantity, basketItem, productInventory) => {
+        if (!quantity || Number.parseInt(quantity) === 0
+            || (basketItem &&  Number.parseInt(quantity) +  Number.parseInt(basketItem.quantity) > productInventory)
+            || (quantity > productInventory)){
             return true;
         }
         return false;
-    }
+    };
     validateItemInBasket = (quantity, basketItemQuantity) => {
         const enoughItemInBasket = quantity > 0 && basketItemQuantity >= quantity;
         return enoughItemInBasket;
-    }
+    };
     validateRemove = (quantity, basketItem) => {
         if (!quantity || !basketItem || !this.validateItemInBasket(quantity,basketItem.quantity)){
             return true;
         }
         return false;
-    }
+    };
     handleChange = event => {
         this.setState({
             quantity: event.target.value,
         });
     };
+    onClickAddToBasket = (product, quantity, basketItem) => {
+        const { updateBasket, addToBasket } = this.props;
+        if (basketItem) {
+            // update the basketItem by new quantity
+            updateBasket(basketItem, quantity)
+        } else {
+            // Add new basketItem
+            addToBasket(product, quantity)
+        }
+        
+    }
+    onClickRemoveFromBasket= (basketItem, quantity) => {
+        const { updateBasket, removeFromBasket } = this.props;
+
+        if (basketItem.quantity == quantity){
+            removeFromBasket(basketItem)
+        }
+        updateBasket(basketItem, quantity, "DECR")
+    };
     render(){
-        const { product, classes, basketItem, inventory } = this.props;
+        const { product, classes, basketItem, productInventory } = this.props;
         const { quantity } = this.state;
         return(
             <div className={classes.root} key={generateKey(product.id)}>
@@ -82,7 +102,8 @@ class InventoryItemComponent extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
-                    disabled={this.validateAdd(quantity, basketItem, product)}
+                    disabled={this.validateAdd(quantity, basketItem, productInventory)}
+                    onClick={() => this.onClickAddToBasket(product, quantity, basketItem)}
                 >Add
                 </Button>
                 <Button
@@ -90,6 +111,7 @@ class InventoryItemComponent extends React.Component {
                     color="primary"
                     style={{ minWidth: '180px' }}
                     disabled={this.validateRemove(quantity, basketItem)}
+                    onClick={() => this.onClickRemoveFromBasket(basketItem, quantity)}
                 >Remove
                 </Button>  
             </div>
@@ -99,6 +121,11 @@ class InventoryItemComponent extends React.Component {
 
 const mapStateToProps = (state,props) => ({
     basketItem: getItemBasketByProduct(state,props.product),
+    productInventory: getProductInventory(state, props.product)
 });
-
-export default connect(mapStateToProps)(withStyles(styles)(InventoryItemComponent));
+const mapDispatchToProps = dispatch => ({
+    addToBasket: (product, quantity) => dispatch(Actions.addToBasket(product, quantity)),
+    updateBasket: (basketItem, quantity, decr) => dispatch(Actions.updateBasket(basketItem, quantity, decr)),
+    removeFromBasket: (basketItem) => dispatch(Actions.removeFromBasket(basketItem)),
+});
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InventoryItemComponent));
