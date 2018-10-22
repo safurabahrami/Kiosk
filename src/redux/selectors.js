@@ -23,3 +23,12 @@ export const getProductInventory = (state,productItem) => {
     return productItem.inventory;
 }
 
+export const getProductInventoryByProductId = (state, productId) => {
+    return getProductById(state, productId).inventory;
+}
+
+export const getItemBasketByProductId = (state, productId) => {
+    return state.basket.basketItems.find(item => item.productItem.id === productId);
+}
+export const getProductIds = state => state.products.products.map((item)=>item.id)
+

@@ -10,7 +10,7 @@ export default class APIService {
         return this.latestId
     }
 
-    static getMethod() {
+    static getProducts() {
         return data.products;
     }
     static addToBasket( product, quantity) {

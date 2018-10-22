@@ -1,7 +1,10 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+
 import InventoryItemComponent from './InventoryItemComponent';
+import { getProductIds } from '../redux/selectors';
 
 const styles = theme => ({
     root: {
@@ -14,13 +17,16 @@ const styles = theme => ({
   });
 class InventoryComponent extends React.Component {
     render() {
-        const generateKey = index => (`key${index}`);
-        const { inventory, classes, basketItems} = this.props;
+        const { productIds, classes } = this.props;
         return(
             <Paper className={classes.root}>
-                { inventory.map(product => <InventoryItemComponent key={generateKey(product.id)} product={product} basketItems={basketItems}/>)}
+                { productIds.map(productId => <InventoryItemComponent key={productId} productId={productId} />)}
             </Paper>
         );
     }
 }
-export default withStyles(styles) (InventoryComponent);
+const mapStateToProps = (state) => ({
+    productIds: getProductIds(state)
+});
+
+export default connect(mapStateToProps)(withStyles(styles) (InventoryComponent));

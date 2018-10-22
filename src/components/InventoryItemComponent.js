@@ -5,8 +5,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { getItemBasketByProduct, getProductInventory } from '../redux/selectors';
+import { getItemBasketByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
 import * as Actions from '../redux/actionCreators/Actions'
+import { validateAdd, validateRemove} from './InventoryComponentItemHelper'
 
 const styles = theme => ({
     root: {
@@ -30,30 +31,16 @@ const styles = theme => ({
     }
   });
 
-const generateKey = index => (`key${index}`);
 
 class InventoryItemComponent extends React.Component {
-    state = {
-        quantity: 1
+    constructor(props){
+        super(props);
+        this.state = {
+            quantity: 1,
+            helperText: ""
+        }
     }
-    validateAdd = (quantity, basketItem, productInventory) => {
-        if (!quantity || Number.parseInt(quantity) === 0
-            || (basketItem &&  Number.parseInt(quantity) +  Number.parseInt(basketItem.quantity) > productInventory)
-            || (quantity > productInventory)){
-            return true;
-        }
-        return false;
-    };
-    validateItemInBasket = (quantity, basketItemQuantity) => {
-        const enoughItemInBasket = quantity > 0 && basketItemQuantity >= quantity;
-        return enoughItemInBasket;
-    };
-    validateRemove = (quantity, basketItem) => {
-        if (!quantity || !basketItem || !this.validateItemInBasket(quantity,basketItem.quantity)){
-            return true;
-        }
-        return false;
-    };
+
     handleChange = event => {
         this.setState({
             quantity: event.target.value,
@@ -79,18 +66,18 @@ class InventoryItemComponent extends React.Component {
         }
         updateBasket(basketItem, quantity, "DECR")
     };
-    calcRemainNumberInventory = (productInventory, basketItem) => {
-        if (basketItem && productInventory){
-            return  Number.parseInt(productInventory) -  Number.parseInt(basketItem.quantity)
+    calcRemainNumberInventory = (inventoryQuantity, basketItem) => {
+        if (basketItem && inventoryQuantity){
+            return  Number.parseInt(inventoryQuantity) -  Number.parseInt(basketItem.quantity)
         }
-        return productInventory || 0;
+        return inventoryQuantity || 0;
     }
     render(){
-        const { product, classes, basketItem, productInventory } = this.props;
+        const { productId, classes, basketItem, inventoryQuantity, product } = this.props;
         const { quantity, helperText } = this.state;
-        const remainedNumberInventory = this.calcRemainNumberInventory(productInventory, basketItem);
+        const remainedNumberInventory = this.calcRemainNumberInventory(inventoryQuantity, basketItem);
         return(
-            <div className={classes.root} key={generateKey(product.id)}>
+            <div className={classes.root} key={productId}>
                 
                 <Typography variant="subtitle1" className={classes.productTitle}>
                     {product.name}(s)
@@ -106,18 +93,18 @@ class InventoryItemComponent extends React.Component {
                     value={quantity}
                     helperText={helperText}
                     onChange={event => { 
-                        if (event.target.value >= 0 && event.target.value <= remainedNumberInventory){
+                        if (event.target.value >= 0 && (event.target.value <= remainedNumberInventory || event.target.value <= basketItem.quantity)){
                             this.setState({helperText: ""})
                             return this.handleChange(event)
                         }
-                        return this.setState({helperText: `Only ${remainedNumberInventory} items are remained`})
+                        return this.setState({helperText: `Only ${remainedNumberInventory} items can be added`})
                     }}
                 />
                 <Button
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
-                    disabled={this.validateAdd(quantity, basketItem, productInventory)}
+                    disabled={validateAdd(quantity, basketItem, inventoryQuantity)}
                     onClick={() => this.onClickAddToBasket(product, quantity, basketItem)}
                 >Add
                 </Button>
@@ -125,7 +112,7 @@ class InventoryItemComponent extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
-                    disabled={this.validateRemove(quantity, basketItem)}
+                    disabled={validateRemove(quantity, basketItem)}
                     onClick={() => this.onClickRemoveFromBasket(basketItem, quantity)}
                 >Remove
                 </Button>  
@@ -135,8 +122,9 @@ class InventoryItemComponent extends React.Component {
 }
 
 const mapStateToProps = (state,props) => ({
-    basketItem: getItemBasketByProduct(state,props.product),
-    productInventory: getProductInventory(state, props.product)
+    basketItem: getItemBasketByProductId(state,props.productId),
+    product: getProductById(state, props.productId),
+    inventoryQuantity: getProductInventoryByProductId(state, props.productId)
 });
 const mapDispatchToProps = dispatch => ({
     addToBasket: (product, quantity) => dispatch(Actions.addToBasket(product, quantity)),
