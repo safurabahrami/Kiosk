@@ -93,7 +93,9 @@ class InventoryItemComponent extends React.Component {
                     value={quantity}
                     helperText={helperText}
                     onChange={event => { 
-                        if (event.target.value >= 0 && (event.target.value <= remainedNumberInventory || event.target.value <= basketItem.quantity)){
+                        if (event.target.value >= 0 && (event.target.value <= remainedNumberInventory
+                            || (basketItem && event.target.value <= basketItem.quantity))
+                        ){
                             this.setState({helperText: ""})
                             return this.handleChange(event)
                         }
