@@ -19,7 +19,7 @@ export const getItemBasketByProduct = (state, productItem) => {
     return state.basket.basketItems.find(item => item.productItem.id === productItem.id);
 }
 
-export const getProductInventory = (state, productItem) => {
+export const getProductInventory = (state,productItem) => {
     return productItem.inventory;
 }
 

@@ -57,6 +57,7 @@ class InventoryItemComponent extends React.Component {
     handleChange = event => {
         this.setState({
             quantity: event.target.value,
+            helperText: ""
         });
     };
     onClickAddToBasket = (product, quantity, basketItem) => {
@@ -78,9 +79,16 @@ class InventoryItemComponent extends React.Component {
         }
         updateBasket(basketItem, quantity, "DECR")
     };
+    calcRemainNumberInventory = (productInventory, basketItem) => {
+        if (basketItem && productInventory){
+            return  Number.parseInt(productInventory) -  Number.parseInt(basketItem.quantity)
+        }
+        return productInventory || 0;
+    }
     render(){
         const { product, classes, basketItem, productInventory } = this.props;
-        const { quantity } = this.state;
+        const { quantity, helperText } = this.state;
+        const remainedNumberInventory = this.calcRemainNumberInventory(productInventory, basketItem);
         return(
             <div className={classes.root} key={generateKey(product.id)}>
                 
@@ -96,7 +104,14 @@ class InventoryItemComponent extends React.Component {
                     }}
                     type="number"
                     value={quantity}
-                    onChange={event => { if (event.target.value >= 0 ) return this.handleChange(event)}}
+                    helperText={helperText}
+                    onChange={event => { 
+                        if (event.target.value >= 0 && event.target.value <= remainedNumberInventory){
+                            this.setState({helperText: ""})
+                            return this.handleChange(event)
+                        }
+                        return this.setState({helperText: `Only ${remainedNumberInventory} items are remained`})
+                    }}
                 />
                 <Button
                     variant="contained"
