@@ -46,5 +46,13 @@
             "productId": 3,
             "quantity": 7
         }
+    ],
+    "promotions":[
+        {
+            "id": 1,
+            "type": 1,
+            "payload": {
+            }
+        }
     ]
 }

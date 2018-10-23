@@ -1,10 +1,12 @@
+import Immutable from 'seamless-immutable';
+
 export const getInventory = state => state.products.products;
 export const getScannedItems = state => state.basket.scannedItems;
 export const getBasketItems = state => state.basket.scannedItems.filter(item => item.quantity !==0);
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
 export const getProductsPromo = (state, productId) => []
-export const getBasketItem = (state, basketItem) => {
-    const basketItemState = state.basket.scannedItems.find(item => item.productId === basketItem.productId);
+export const getBasketItem = (state, productId) => {
+    const basketItemState = state.basket.scannedItems.find(item => item.productId === productId);
     const product = getProductById(state, basketItemState.productId);
     const promos = getProductsPromo(state, basketItemState.productId);
     return {
@@ -34,7 +36,22 @@ export const getItemBasketByProductId = (state, productId) => {
 export const getProductIds = state => state.products.products.map((item)=>item.id)
 
 export const getScannedProductIds = state => state.basket.scannedItems.map((item)=>item.productId)
+export const getBasketProductIds = state => getBasketItems(state).map((item) => item.productId)
 
+export const getSortedScannedProductIds = state => {
+    const scannedProductIds = getScannedProductIds(state);
+    const allProducts = getInventory(state);
+    return Immutable.asMutable(allProducts).sort((p1,p2) => p1.name > p2.name)
+        .filter(product => scannedProductIds.find((scannedId) => scannedId === product.id))
+        .map(filteredItem => filteredItem.id)
+}
+export const getSortedBasketProductIds = state => {
+    const basketProductIds = getBasketProductIds(state);
+    const allProducts = getInventory(state);
+    return Immutable.asMutable(allProducts).sort((p1,p2) => p1.name > p2.name)
+        .filter(product => basketProductIds.find((scannedId) => scannedId === product.id))
+        .map(filteredItem => filteredItem.id)
+}
 export const getBasketSubTotalPrice = state => {
     const basketItems = getBasketItems(state);
     if (basketItems && basketItems.length > 0) {

@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import InventoryItemComponent from './InventoryItemComponent';
-import { getScannedProductIds } from '../redux/selectors';
+import { getSortedScannedProductIds } from '../redux/selectors';
 
 const styles = theme => ({
     root: {
@@ -26,7 +26,7 @@ class BasketControl extends React.Component {
     }
 }
 const mapStateToProps = (state) => ({
-    scannedProductIds: getScannedProductIds(state)
+    scannedProductIds: getSortedScannedProductIds(state)
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(BasketControl));

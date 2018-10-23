@@ -5,7 +5,7 @@ import Table from '@material-ui/core/Table';
 import { TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import BasketItemContainer from './BasketItemContainer';
-import { getBasketItems } from '../redux/selectors';
+import { getSortedBasketProductIds } from '../redux/selectors';
 
 const styles = theme => ({
     root: {
@@ -30,7 +30,7 @@ const styles = theme => ({
     }
   });
   
-const BasketComponent = ({basketItems, classes}) => {
+const BasketComponent = ({basketItemsId, classes}) => {
     
     return(
         <Paper className={classes.root}>
@@ -43,9 +43,9 @@ const BasketComponent = ({basketItems, classes}) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {basketItems.map(row => {
+                {basketItemsId.map(row => {
                     return (
-                        <BasketItemContainer key={row.productId} basketItem={row} />
+                        <BasketItemContainer key={row.productId} productId={row} />
                     );
                 })}
                 </TableBody>
@@ -55,6 +55,6 @@ const BasketComponent = ({basketItems, classes}) => {
 }
 
 const mapStateToProps = (state) => ({
-    basketItems: getBasketItems(state)
+    basketItemsId: getSortedBasketProductIds(state)
 });
 export default connect(mapStateToProps)(withStyles(styles)(BasketComponent));
