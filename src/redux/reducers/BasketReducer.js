@@ -2,19 +2,6 @@
 import Immutable from 'seamless-immutable';
 import * as types from '../actionCreators/ActionTypes';
 
-const groupScanItemsByProduct = (list, groupGetter) => {
-    const map = new Map();
-    list.forEach((item) => {
-        const key = groupGetter(item);
-        if (!map.has(key)) {
-            map.set(key, [item]);
-        } else {
-            map.get(key).push(item);
-        }
-    });
-    return map;
-}
-
 const initialState = Immutable({
     scannedItems: []
 });
@@ -33,17 +20,23 @@ export default function BasketReducer(state = initialState, action) {
         case types.GET_SCANNED_ITEMS_SUCCESS:
             // Group by response.product
             // set basketItems with accumulated quantities
-            const groupedScannedItems = groupScanItemsByProduct(action.response, row => row.productId);
-            let basketItemFromScanned = [];
-            groupedScannedItems.forEach((value, key) => {
-                const quantity = value.reduce((acc,item) => item.quantity + acc, 0);
-                const basketItem = {
-                    "productId": key,
-                    "quantity": quantity || 0
+            let mergedItems = action.response.reduce((acc, item) => {
+                if (acc.has(item.productId)){
+                    acc.set(item.productId, acc.get(item.productId) + item.quantity);
+                }else{
+                    acc.set(item.productId, item.quantity);
                 }
-                basketItemFromScanned.push(basketItem)
-            })
-            return Immutable.merge(state, { scannedItems: basketItemFromScanned});
+                return acc;
+            },new Map());
+
+            let scannedItems = [];
+            mergedItems.forEach((value, key) => {
+                scannedItems.push({
+                    "productId": key,
+                    "quantity": value
+                })
+            });
+            return Immutable.merge(state, { scannedItems: scannedItems});
         case types.ADD_NEW_ITEM_BASKET_SUCCESS:
             return Immutable.merge(state, { scannedItems: [...state.scannedItems, action.response] });
         default:
