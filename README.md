@@ -1,6 +1,6 @@
-#Front-end Coding Exercise
+# Front-end Coding Exercise
 
-#Test
+# Test
 To run the tests use ```npm test```
 
 I am using this combination of tools for test:
