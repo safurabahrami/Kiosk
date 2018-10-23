@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import * as Actions from '../redux/actionCreators/Actions'
-import { getBasketItems } from '../redux/selectors';
 
-import InventoryComponent from './InventoryComponent';
+import BasketControl from './BasketControl';
 import BasketComponent from './BasketComponent';
 import PriceBoxComponent from './PriceBoxComponent';
 
@@ -21,34 +20,34 @@ const styles = theme => ({
 
 class SelfCheckoutComponent extends React.Component {
     async componentDidMount() {
-        await this.props.getProducts();
+        const { getProducts, getScannedItems } = this.props;
+        await getProducts();
+        await getScannedItems();
     }
     render() {
-        const { basketItems, classes } = this.props;
+        const { classes } = this.props;
         return(
             <Paper className={classes.root}>
                 {/*
                     render the inventory component
                 */}
-                <InventoryComponent />
+                <BasketControl />
                 {/*
                     render the Basket component
                 */}
-                <BasketComponent basketItems={basketItems} />
+                <BasketComponent />
                 {/*
                     render the price
                 */}
-                <PriceBoxComponent basketItems={basketItems}/>
+                <PriceBoxComponent/>
             </Paper>
         );
     }
 }
 
-const mapStateToProps = (state) => ({
-    basketItems: getBasketItems(state)
-});
-
 const mapDispatchToProps = dispatch => ({
-    getProducts: () => dispatch(Actions.getProducts())
+    getProducts: () => dispatch(Actions.getProducts()),
+    getScannedItems: () => dispatch(Actions.getScannedItems())
+
 });
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles) (SelfCheckoutComponent));
+export default connect(null,mapDispatchToProps) (withStyles(styles) (SelfCheckoutComponent));

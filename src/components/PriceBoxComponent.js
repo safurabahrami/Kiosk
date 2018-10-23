@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Table, TableBody, TableCell, TableRow} from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { toFixedPrecision } from '../util';
+import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
 
 const renderPriceRow = (title,value, noBorder) => {
     return (
@@ -12,12 +13,7 @@ const renderPriceRow = (title,value, noBorder) => {
         </TableRow>
     )
 }
-const calculateTotalPrice = (basketItems) => {
-    if (basketItems && basketItems.length > 0) {
-        return toFixedPrecision(basketItems.reduce((acc,item) => item.productItem.price * item.quantity  + acc,0),2);
-    }
-    return 0;
-}
+
 const styles = theme => ({
     root: {
         width: '70%',
@@ -27,19 +23,17 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2
     },
 })
-const PriceBoxComponent = ({basketItems, inventory, classes}) => {
-    const subTotal = calculateTotalPrice(basketItems);
-    const discount = 0;
-    const total = subTotal-discount;
+const PriceBoxComponent = ({basketItems, classes, subTotalPrice, totalDiscount}) => {
+    const total = subTotalPrice - totalDiscount;
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableBody>
                 { 
-                    renderPriceRow("Subtotal", subTotal, 'noBorder') 
+                    renderPriceRow("Subtotal", subTotalPrice, 'noBorder') 
                 }
                 {
-                    renderPriceRow("Discount", discount === 0 ? 0 : -discount )
+                    renderPriceRow("Discount", totalDiscount === 0 ? 0 : -totalDiscount )
                 }
                 </TableBody>
             </Table>
@@ -51,8 +45,12 @@ const PriceBoxComponent = ({basketItems, inventory, classes}) => {
                 </TableBody>
             </Table>
         </Paper>
-
-);
+    );
 }
 
-export default withStyles(styles)(PriceBoxComponent);
+const mapStateToProps = (state) => ({
+    basketItems: getBasketItems(state),
+    subTotalPrice: getBasketSubTotalPrice(state),
+    totalDiscount: getTotalDiscount(state)
+});
+export default connect(mapStateToProps)(withStyles(styles)(PriceBoxComponent));

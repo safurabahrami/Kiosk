@@ -23,18 +23,19 @@ export function getProducts() {
     };
 }
 
-function addToBasketSuccess(response) {
+function getScannedItemsSuccess(response) {
     return {
-      type: types.ADD_ITEM_BASKET_SUCCESS, response,
+      type: types.GET_SCANNED_ITEMS_SUCCESS, response,
     };
-}
+  }
 
-export function addToBasket(product, quantity) {
+export function getScannedItems() {
     return (dispatch) => {
-        dispatch(updateLoadingState(types.ADD_ITEM_BASKET_REQUEST));
+        dispatch(updateLoadingState(types.GET_SCANNED_ITEMS_REQUEST));
         // API Call is an async call so we need to use async and await or promises here 
-        const addedItem = ApiCall.addToBasket(product, quantity);
-        dispatch(addToBasketSuccess(addedItem));
+        const scannedItems = ApiCall.getScannedItems();
+        dispatch(getScannedItemsSuccess(scannedItems));
+        
     };
 }
 
@@ -44,25 +45,11 @@ function updateBasketSuccess(response) {
     };
 }
 
-export function updateBasket(basketItem, quantity, decr) {
+export function updateBasket(basketItem, productId, quantity, decr) {
     return (dispatch) => {
         dispatch(updateLoadingState(types.UPDATE_ITEM_BASKET_REQUEST));
         // API Call is an async call so we need to use async and await or promises here 
-        const updatedItem = ApiCall.updateBasket(basketItem, quantity, decr);
+        const updatedItem = ApiCall.updateBasket(basketItem, productId, quantity, decr);
         dispatch(updateBasketSuccess(updatedItem));
-    };
-}
-
-function removeFromBasketSuccess(response) {
-    return {
-      type: types.REMOVE_ITEM_BASKET_SUCCESS, response,
-    };
-}
-
-export function removeFromBasket(basketItem) {
-    return (dispatch) => {
-        dispatch(updateLoadingState(types.REMOVE_ITEM_BASKET_REQUEST));
-        // API Call is an async call so we need to use async and await or promises here 
-        dispatch(removeFromBasketSuccess(basketItem));
     };
 }

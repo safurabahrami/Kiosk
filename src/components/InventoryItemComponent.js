@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { getItemBasketByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
 import * as Actions from '../redux/actionCreators/Actions'
-import { validateAdd, validateRemove} from './InventoryComponentItemHelper'
+import { validateAdd, validateRemove} from './BasketControlHelper'
 
 const styles = theme => ({
     root: {
@@ -47,24 +47,14 @@ class InventoryItemComponent extends React.Component {
             helperText: ""
         });
     };
-    onClickAddToBasket = (product, quantity, basketItem) => {
-        const { updateBasket, addToBasket } = this.props;
-        if (basketItem) {
-            // update the basketItem by new quantity
-            updateBasket(basketItem, quantity)
-        } else {
-            // Add new basketItem
-            addToBasket(product, quantity)
-        }
-        
-    }
-    onClickRemoveFromBasket= (basketItem, quantity) => {
-        const { updateBasket, removeFromBasket } = this.props;
+    onClickAddToBasket = (basketItem, productId, quantity) => {
+        const { updateBasket } = this.props;
+        updateBasket(basketItem, productId, quantity);
 
-        if (basketItem.quantity == quantity){
-            removeFromBasket(basketItem)
-        }
-        updateBasket(basketItem, quantity, "DECR")
+    }
+    onClickRemoveFromBasket= (basketItem, productId, quantity) => {
+        const { updateBasket } = this.props;
+        updateBasket(basketItem, productId, quantity, "DECR")
     };
     calcRemainNumberInventory = (inventoryQuantity, basketItem) => {
         if (basketItem && inventoryQuantity){
@@ -107,7 +97,7 @@ class InventoryItemComponent extends React.Component {
                     color="primary"
                     style={{ minWidth: '180px' }}
                     disabled={validateAdd(quantity, basketItem, inventoryQuantity)}
-                    onClick={() => this.onClickAddToBasket(product, quantity, basketItem)}
+                    onClick={() => this.onClickAddToBasket(basketItem, productId, quantity)}
                 >Add
                 </Button>
                 <Button
@@ -115,7 +105,7 @@ class InventoryItemComponent extends React.Component {
                     color="primary"
                     style={{ minWidth: '180px' }}
                     disabled={validateRemove(quantity, basketItem)}
-                    onClick={() => this.onClickRemoveFromBasket(basketItem, quantity)}
+                    onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
                 >Remove
                 </Button>  
             </div>
@@ -124,13 +114,11 @@ class InventoryItemComponent extends React.Component {
 }
 
 const mapStateToProps = (state,props) => ({
-    basketItem: getItemBasketByProductId(state,props.productId),
+    basketItem: getItemBasketByProductId(state, props.productId),
     product: getProductById(state, props.productId),
     inventoryQuantity: getProductInventoryByProductId(state, props.productId)
 });
 const mapDispatchToProps = dispatch => ({
-    addToBasket: (product, quantity) => dispatch(Actions.addToBasket(product, quantity)),
-    updateBasket: (basketItem, quantity, decr) => dispatch(Actions.updateBasket(basketItem, quantity, decr)),
-    removeFromBasket: (basketItem) => dispatch(Actions.removeFromBasket(basketItem)),
+    updateBasket: (basketItem, productId, quantity, decr) => dispatch(Actions.updateBasket(basketItem, productId, quantity, decr)),
 });
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InventoryItemComponent));

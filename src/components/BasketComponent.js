@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import { TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import BasketItemContainer from './BasketItemContainer';
+import { getBasketItems } from '../redux/selectors';
 
 const styles = theme => ({
     root: {
@@ -43,7 +45,7 @@ const BasketComponent = ({basketItems, classes}) => {
                 <TableBody>
                 {basketItems.map(row => {
                     return (
-                        <BasketItemContainer key={row.id} basketItem={row} />
+                        <BasketItemContainer key={row.productId} basketItem={row} />
                     );
                 })}
                 </TableBody>
@@ -52,4 +54,7 @@ const BasketComponent = ({basketItems, classes}) => {
     );
 }
 
-export default withStyles(styles)(BasketComponent);
+const mapStateToProps = (state) => ({
+    basketItems: getBasketItems(state)
+});
+export default connect(mapStateToProps)(withStyles(styles)(BasketComponent));

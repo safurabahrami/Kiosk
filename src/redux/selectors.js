@@ -1,22 +1,23 @@
-import { toFixedPrecision } from '../util';
 export const getInventory = state => state.products.products;
-export const getBasketItems = state => state.basket.basketItems;
+export const getScannedItems = state => state.basket.scannedItems;
+export const getBasketItems = state => state.basket.scannedItems.filter(item => item.quantity !==0);
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
-export const getProductsPromo = (state, product) => []
-export const getBasketItem = (state, props) => {
-    const basketItemState = state.basket.basketItems.find(basketItem => basketItem.id === props.basketItem.id);
-    const promos = getProductsPromo(state, basketItemState.productItem);
+export const getProductsPromo = (state, productId) => []
+export const getBasketItem = (state, basketItem) => {
+    const basketItemState = state.basket.scannedItems.find(item => item.productId === basketItem.productId);
+    const product = getProductById(state, basketItemState.productId);
+    const promos = getProductsPromo(state, basketItemState.productId);
     return {
-        "product": basketItemState.productItem.name,
-        "price": `$${basketItemState.productItem.price} x ${basketItemState.quantity}`,
-        "total": toFixedPrecision(basketItemState.productItem.price * basketItemState.quantity,2),
+        "product": product.name,
+        "price": `$${product.price} x ${basketItemState.quantity}`,
+        "total": toFixedPrecision(product.price * basketItemState.quantity,2),
         "promos": promos,
         "quantity": basketItemState.quantity
     }
 }
 
 export const getItemBasketByProduct = (state, productItem) => {
-    return state.basket.basketItems.find(item => item.productItem.id === productItem.id);
+    return state.basket.scannedItems.find(item => item.productId === productItem.id);
 }
 
 export const getProductInventory = (state,productItem) => {
@@ -28,7 +29,29 @@ export const getProductInventoryByProductId = (state, productId) => {
 }
 
 export const getItemBasketByProductId = (state, productId) => {
-    return state.basket.basketItems.find(item => item.productItem.id === productId);
+    return state.basket.scannedItems.find(item => item.productId === productId);
 }
 export const getProductIds = state => state.products.products.map((item)=>item.id)
 
+export const getScannedProductIds = state => state.basket.scannedItems.map((item)=>item.productId)
+
+export const getBasketSubTotalPrice = state => {
+    const basketItems = getBasketItems(state);
+    if (basketItems && basketItems.length > 0) {
+        return toFixedPrecision(basketItems.reduce((acc,item) => {
+            const product = getProductById(state, item.productId)
+            return product.price * item.quantity  + acc;
+        },0),2);
+    }
+    return 0;
+}
+
+export const getTotalDiscount = state => 0;
+
+
+
+// Ref: https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
+// Test in jsfiddle: http://jsfiddle.net/cCX5y/3/
+export const toFixedPrecision = function(num, precision) {
+    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
+}

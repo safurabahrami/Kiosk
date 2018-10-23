@@ -6,6 +6,6 @@ import { getBasketItem } from '../redux/selectors';
 // fetch the promos and calculate that
 
 const mapStateToProps = (state,props) => ({
-    basketItem: getBasketItem(state,props)
+    basketItem: getBasketItem(state, props.basketItem)
 });
 export default connect(mapStateToProps)(BasketItemComponent) ;

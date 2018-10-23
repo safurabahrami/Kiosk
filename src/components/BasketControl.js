@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import InventoryItemComponent from './InventoryItemComponent';
-import { getProductIds } from '../redux/selectors';
+import { getScannedProductIds } from '../redux/selectors';
 
 const styles = theme => ({
     root: {
@@ -15,18 +15,18 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2
     }
   });
-class InventoryComponent extends React.Component {
+class BasketControl extends React.Component {
     render() {
-        const { productIds, classes } = this.props;
+        const { scannedProductIds, classes } = this.props;
         return(
             <Paper className={classes.root}>
-                { productIds.map(productId => <InventoryItemComponent key={productId} productId={productId} />)}
+                { scannedProductIds.map(productId => <InventoryItemComponent key={productId} productId={productId} />)}
             </Paper>
         );
     }
 }
 const mapStateToProps = (state) => ({
-    productIds: getProductIds(state)
+    scannedProductIds: getScannedProductIds(state)
 });
 
-export default connect(mapStateToProps)(withStyles(styles) (InventoryComponent));
+export default connect(mapStateToProps)(withStyles(styles)(BasketControl));
