@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -29,9 +30,9 @@ const styles = theme => ({
         textAlign: 'left'
     }
   });
-  
+
 const BasketComponent = ({basketItemsId, classes}) => {
-    
+
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>
@@ -52,6 +53,11 @@ const BasketComponent = ({basketItemsId, classes}) => {
             </Table>
         </Paper>
     );
+}
+
+BasketComponent.propTypes = {
+    basketItemsId: PropTypes.arrayOf(PropTypes.number).isRequired,
+    classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({

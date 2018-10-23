@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import * as Actions from '../redux/actionCreators/Actions'
 
+import * as Actions from '../redux/actionCreators/Actions'
 import BasketControl from './BasketControl';
 import BasketComponent from './BasketComponent';
 import PriceBoxComponent from './PriceBoxComponent';
@@ -44,6 +45,11 @@ class SelfCheckoutComponent extends React.Component {
         );
     }
 }
+
+SelfCheckoutComponent.propTypes = {
+    getScannedItems: PropTypes.func.isRequired,
+    getProducts: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = dispatch => ({
     getProducts: () => dispatch(Actions.getProducts()),

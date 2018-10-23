@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, TableBody, TableCell, TableRow} from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
+import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount, toFixedPrecision } from '../redux/selectors';
 
-const renderPriceRow = (title,value, noBorder) => {
+const RenderPriceRow = ({title, value, noBorder}) => {
     return (
         <TableRow>
             <TableCell style={noBorder ? { borderBottom: '0px' } : {}}>{title}</TableCell>
@@ -13,6 +14,15 @@ const renderPriceRow = (title,value, noBorder) => {
         </TableRow>
     )
 }
+
+RenderPriceRow.defaultProps = {
+    noBorder: false
+};
+RenderPriceRow.propTypes = {
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    noBorder: PropTypes.bool.isRequired
+};
 
 const styles = theme => ({
     root: {
@@ -22,30 +32,32 @@ const styles = theme => ({
         alignSelf: 'center',
         padding: theme.spacing.unit * 2
     },
-})
+});
+
 const PriceBoxComponent = ({basketItems, classes, subTotalPrice, totalDiscount}) => {
-    const total = subTotalPrice - totalDiscount;
+    const total = toFixedPrecision(subTotalPrice - totalDiscount, 2);
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableBody>
-                { 
-                    renderPriceRow("Subtotal", subTotalPrice, 'noBorder') 
-                }
-                {
-                    renderPriceRow("Discount", totalDiscount === 0 ? 0 : -totalDiscount )
-                }
+                    <RenderPriceRow title="Subtotal" value={subTotalPrice} noBorder={true} />
+                    <RenderPriceRow title="Discount" value={totalDiscount} />
                 </TableBody>
             </Table>
             <Table className={classes.table}>
                 <TableBody>
-                {
-                    renderPriceRow("Total", total)
-                }
+                    <RenderPriceRow title="Total" value={total} />
                 </TableBody>
             </Table>
         </Paper>
     );
+};
+
+PriceBoxComponent.propTypes = {
+    basketItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    classes: PropTypes.object.isRequired,
+    subTotalPrice: PropTypes.string.isRequired,
+    totalDiscount: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({

@@ -10,7 +10,7 @@ export const getBasketItem = (state, productId) => {
     const product = getProductById(state, basketItemState.productId);
     const promos = getProductsPromo(state, basketItemState.productId);
     return {
-        "product": product.name,
+        "productName": product.name,
         "price": `$${product.price} x ${basketItemState.quantity}`,
         "total": toFixedPrecision(product.price * basketItemState.quantity,2),
         "promos": promos,
@@ -27,7 +27,7 @@ export const getProductInventory = (state,productItem) => {
 }
 
 export const getProductInventoryByProductId = (state, productId) => {
-    return getProductById(state, productId).inventory;
+    return parseInt(getProductById(state, productId).inventory);
 }
 
 export const getItemBasketByProductId = (state, productId) => {
@@ -60,10 +60,10 @@ export const getBasketSubTotalPrice = state => {
             return product.price * item.quantity  + acc;
         },0),2);
     }
-    return 0;
+    return toFixedPrecision(0, 2);
 }
 
-export const getTotalDiscount = state => 0;
+export const getTotalDiscount = state => toFixedPrecision(0,2);
 
 
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Typography, Button } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -112,6 +113,13 @@ class InventoryItemComponent extends React.Component {
         );
       }    
 }
+
+InventoryItemComponent.propTypes = {
+    basketItem: PropTypes.object.isRequired,
+    product: PropTypes.object.isRequired,
+    inventoryQuantity: PropTypes.number.isRequired,
+    updateBasket: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state,props) => ({
     basketItem: getItemBasketByProductId(state, props.productId),

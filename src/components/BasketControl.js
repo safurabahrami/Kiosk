@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -15,6 +16,7 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2
     }
   });
+
 class BasketControl extends React.Component {
     render() {
         const { scannedProductIds, classes } = this.props;
@@ -25,6 +27,11 @@ class BasketControl extends React.Component {
         );
     }
 }
+
+BasketControl.propTypes = {
+    scannedProductIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+}
+
 const mapStateToProps = (state) => ({
     scannedProductIds: getSortedScannedProductIds(state)
 });
