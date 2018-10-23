@@ -43,9 +43,9 @@ const BasketComponent = ({basketItemsId, classes}) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {basketItemsId.map(row => {
+                {basketItemsId.map(itemId => {
                     return (
-                        <BasketItemContainer key={row.productId} productId={row} />
+                        <BasketItemContainer key={itemId} productId={itemId} />
                     );
                 })}
                 </TableBody>
