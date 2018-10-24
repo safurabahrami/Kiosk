@@ -1,9 +1,17 @@
-import * as data from './dataSource'
+import * as data from '../resources/dataSource'
 export default class APIService {
 
     static getProducts() {
         return data.products;
     }
+    static getScannedItems() {
+        return data.scanned;
+    }
+    static getPromotions() {
+        return data.promotions;
+    }
+
+
     static addToBasket(basketItem, productId, quantity) {
         const createdItemObject = {
             "productId": productId,
@@ -20,11 +28,5 @@ export default class APIService {
             "quantity": updatedQuantity
         }
         return updatedItemObject;
-    }
-    static getScannedItems() {
-        return data.scanned;
-    }
-    static getPromotions() {
-        return data.promotions;
     }
 }

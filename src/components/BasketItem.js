@@ -6,7 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { getItemBasketByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
+import { getBasketItemByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
 import * as Actions from '../redux/actionCreators/Actions'
 import { validateAdd, validateRemove} from './BasketControlHelper'
 
@@ -123,7 +123,7 @@ BasketItem.propTypes = {
 };
 
 const mapStateToProps = (state,props) => ({
-    basketItem: getItemBasketByProductId(state, props.productId),
+    basketItem: getBasketItemByProductId(state, props.productId),
     product: getProductById(state, props.productId),
     inventoryQuantity: getProductInventoryByProductId(state, props.productId)
 });
