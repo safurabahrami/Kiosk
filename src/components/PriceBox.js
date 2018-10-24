@@ -34,7 +34,7 @@ const styles = theme => ({
     },
 });
 
-const PriceBoxComponent = ({basketItems, classes, subTotalPrice, totalDiscount}) => {
+const PriceBox = ({basketItems, classes, subTotalPrice, totalDiscount}) => {
     const total = toFixedPrecision(subTotalPrice - totalDiscount, 2);
     return(
         <Paper className={classes.root}>
@@ -53,7 +53,7 @@ const PriceBoxComponent = ({basketItems, classes, subTotalPrice, totalDiscount})
     );
 };
 
-PriceBoxComponent.propTypes = {
+PriceBox.propTypes = {
     basketItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     classes: PropTypes.object.isRequired,
     subTotalPrice: PropTypes.string.isRequired,
@@ -65,4 +65,4 @@ const mapStateToProps = (state) => ({
     subTotalPrice: getBasketSubTotalPrice(state),
     totalDiscount: getTotalDiscount(state)
 });
-export default connect(mapStateToProps)(withStyles(styles)(PriceBoxComponent));
+export default connect(mapStateToProps)(withStyles(styles)(PriceBox));

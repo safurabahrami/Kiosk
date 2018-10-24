@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import * as Actions from '../redux/actionCreators/Actions'
 import BasketControl from './BasketControl';
 import Receipt from './Receipt';
-import PriceBoxComponent from './PriceBoxComponent';
+import PriceBox from './PriceBox';
 
 const styles = theme => ({
     root: {
@@ -19,7 +19,7 @@ const styles = theme => ({
     }
 });
 
-class SelfCheckoutComponent extends React.Component {
+class SelfCheckout extends React.Component {
     async componentDidMount() {
         const { getProducts, getScannedItems, getPromotions } = this.props;
         await getProducts();
@@ -41,13 +41,13 @@ class SelfCheckoutComponent extends React.Component {
                 {/*
                     render the price
                 */}
-                <PriceBoxComponent/>
+                <PriceBox/>
             </Paper>
         );
     }
 }
 
-SelfCheckoutComponent.propTypes = {
+SelfCheckout.propTypes = {
     getScannedItems: PropTypes.func.isRequired,
     getProducts: PropTypes.func.isRequired
 };
@@ -57,4 +57,4 @@ const mapDispatchToProps = dispatch => ({
     getScannedItems: () => dispatch(Actions.getScannedItems()),
     getPromotions: () => dispatch(Actions.getPromotions())
 });
-export default connect(null,mapDispatchToProps) (withStyles(styles) (SelfCheckoutComponent));
+export default connect(null,mapDispatchToProps) (withStyles(styles) (SelfCheckout));
