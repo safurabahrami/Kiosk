@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import { TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+
 import BasketItemContainer from './BasketItemContainer';
 import { getSortedBasketProductIds } from '../redux/selectors';
 

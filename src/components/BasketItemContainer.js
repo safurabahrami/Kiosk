@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import ReceiptItem from './ReceiptItem';
 import { getBasketItem } from '../redux/selectors';
 

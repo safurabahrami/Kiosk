@@ -45,6 +45,11 @@
             "id": 4,
             "productId": 3,
             "quantity": 7
+        },
+        {
+            "id": 5,
+            "productId": 2,
+            "quantity": 1
         }
     ],
     "promotions":[
@@ -53,15 +58,38 @@
             "type": "SINGLE_PRODUCT_SALE",
             "payload": {
                 "productId": 1,
-                "salePrice": 0.1
+                "salePrice": 0.1,
+                "title": "sale price"
             }
         },
         {
             "id": 2,
-            "type": "SINGLE_PRODUCT_SALE",
+            "type": "GROUP_PROMOTIONAL_PRICE",
+            "payload": {
+                "productId": 4,
+                "salePrice": 4.0,
+                "quantity": 2,
+                "title": "2 for 4 "
+            }
+        },
+        {
+            "id": 3,
+            "type": "ADDITIONAL_PRODUCT_DISCOUNT",
             "payload": {
                 "productId": 3,
-                "salePrice": 0.2
+                "quantity": 2,
+                "salePercentage": 50,
+                "title": "buy 2 get one 50%"
+            }
+        },
+        {
+            "id": 4,
+            "type": "ADDITIONAL_PRODUCT_DISCOUNT",
+            "payload": {
+                "productId": 2,
+                "quantity": 1,
+                "salePercentage": 100,
+                "title": "buy 1 get 1 free "
             }
         }
     ]

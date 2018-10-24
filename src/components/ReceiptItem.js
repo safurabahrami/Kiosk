@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TableCell, TableRow} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+
 import { applyPromotion } from '../helper';
 
 
@@ -47,16 +48,16 @@ RenderReceiptRow.propTypes = {
 };
 
 const ReceiptItem = ({ basketItem, classes }) => {
-    let promotionPrice;
+    let afterPromotion;
     if ( basketItem.promo) {
-        promotionPrice = applyPromotion(basketItem.promo, basketItem)
+        afterPromotion = applyPromotion(basketItem.promo, basketItem)
     }
     
     return(
         <Fragment>
             <RenderReceiptRow name={basketItem.productName} price={basketItem.price} total={basketItem.total} hasPromo={basketItem.promo ? true : false} key="regular" classes={classes}/>
             { basketItem.promo &&
-                <RenderReceiptRow name="Promo" price={promotionPrice.promoPrice} total={promotionPrice.promoTotal} isPromo={true} classes={classes}/>
+                <RenderReceiptRow name={afterPromotion.promoTitle || "Promo"} price={afterPromotion.promoPrice} total={afterPromotion.promoTotal} isPromo={true} classes={classes}/>
             }
         </Fragment>
 
