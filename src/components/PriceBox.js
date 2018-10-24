@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableRow} from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
-import { toFixedPrecision } from '../Helper';
+import { toFixedPrecision } from '../helper';
 
 const RenderPriceRow = ({title, value, noBorder}) => {
     return (

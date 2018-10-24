@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TableCell, TableRow} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { applyPromotion } from '../Helper';
+import { applyPromotion } from '../helper';
 
 
 const styles = theme => ({

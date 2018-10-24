@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { toFixedPrecision, applyPromotion} from '../Helper';
+import { toFixedPrecision, applyPromotion} from '../helper';
 
 export const getInventory = state => state.products.products;
 export const getScannedItems = state => state.basket.scannedItems;

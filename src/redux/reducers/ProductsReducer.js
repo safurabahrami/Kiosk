@@ -1,6 +1,6 @@
 
 import Immutable from 'seamless-immutable';
-import * as types from '../actionCreators/ActionTypes';
+import ActionTypes from '../actionCreators/ActionTypes';
 
 const initialState = Immutable({
     products: [],
@@ -9,9 +9,9 @@ const initialState = Immutable({
 
 export default function ProductsReducer(state = initialState, action) {
     switch (action.type) {
-        case types.GET_PRODUCTS_SUCCESS:
+        case ActionTypes.GET_PRODUCTS_SUCCESS:
             return Immutable.merge(state, { products: action.response });
-        case types.GET_PROMOTIONS_SUCCESS:
+        case ActionTypes.GET_PROMOTIONS_SUCCESS:
             return Immutable.merge(state, { promotions: action.response });
         default:
             return state;

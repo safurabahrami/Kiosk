@@ -1,6 +1,6 @@
 
 import Immutable from 'seamless-immutable';
-import * as types from '../actionCreators/ActionTypes';
+import ActionTypes from '../actionCreators/ActionTypes';
 
 const initialState = Immutable({
     scannedItems: []
@@ -8,7 +8,7 @@ const initialState = Immutable({
 
 export default function BasketReducer(state = initialState, action) {
     switch (action.type) {   
-        case types.UPDATE_ITEM_BASKET_SUCCESS:
+        case ActionTypes.UPDATE_ITEM_BASKET_SUCCESS:
             return Immutable.updateIn(state, ['scannedItems'], (items) => {
                 return items.map((item) => {
                 if (item.productId === action.response.productId) {
@@ -17,7 +17,7 @@ export default function BasketReducer(state = initialState, action) {
                 return item;
                 });
             });
-        case types.GET_SCANNED_ITEMS_SUCCESS:
+        case ActionTypes.GET_SCANNED_ITEMS_SUCCESS:
             // Group by response.product
             // set basketItems with accumulated quantities
             let mergedItems = action.response.reduce((acc, item) => {
@@ -37,7 +37,7 @@ export default function BasketReducer(state = initialState, action) {
                 })
             });
             return Immutable.merge(state, { scannedItems: scannedItems});
-        case types.ADD_NEW_ITEM_BASKET_SUCCESS:
+        case ActionTypes.ADD_NEW_ITEM_BASKET_SUCCESS:
             return Immutable.merge(state, { scannedItems: [...state.scannedItems, action.response] });
         default:
             return state;
