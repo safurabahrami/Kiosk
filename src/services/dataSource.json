@@ -50,8 +50,18 @@
     "promotions":[
         {
             "id": 1,
-            "type": 1,
+            "type": "SINGLE_PRODUCT_SALE",
             "payload": {
+                "productId": 1,
+                "salePrice": 0.1
+            }
+        },
+        {
+            "id": 2,
+            "type": "SINGLE_PRODUCT_SALE",
+            "payload": {
+                "productId": 3,
+                "salePrice": 0.2
             }
         }
     ]

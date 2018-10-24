@@ -4,11 +4,13 @@ export const getInventory = state => state.products.products;
 export const getScannedItems = state => state.basket.scannedItems;
 export const getBasketItems = state => state.basket.scannedItems.filter(item => item.quantity !==0);
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
-export const getProductsPromo = (state, productId) => []
+export const getPromotionsByProductId = (state, productId) => {
+    return state.products.promotions.filter(promo => promo.payload.productId === productId);
+}
 export const getBasketItem = (state, productId) => {
     const basketItemState = state.basket.scannedItems.find(item => item.productId === productId);
     const product = getProductById(state, basketItemState.productId);
-    const promos = getProductsPromo(state, basketItemState.productId);
+    const promos = getPromotionsByProductId(state, basketItemState.productId);
     return {
         "productName": product.name,
         "price": `$${product.price} x ${basketItemState.quantity}`,
@@ -64,8 +66,6 @@ export const getBasketSubTotalPrice = state => {
 }
 
 export const getTotalDiscount = state => toFixedPrecision(0,2);
-
-
 
 // Ref: https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
 // Test in jsfiddle: http://jsfiddle.net/cCX5y/3/

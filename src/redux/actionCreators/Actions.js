@@ -7,9 +7,9 @@ function updateLoadingState(type) {
     };
 }
 
-function getProductsSuccess(products) {
+function getProductsSuccess(response) {
     return {
-      type: types.GET_PRODUCTS_SUCCESS, products,
+      type: types.GET_PRODUCTS_SUCCESS, response,
     };
   }
 
@@ -20,6 +20,21 @@ export function getProducts() {
         const products = ApiCall.getProducts();
         dispatch(getProductsSuccess(products));
         
+    };
+}
+
+function getPromotionsSuccess(response) {
+    return {
+      type: types.GET_PROMOTIONS_SUCCESS, response,
+    };
+  }
+
+export function getPromotions() {
+    return (dispatch) => {
+        dispatch(updateLoadingState(types.GET_PROMOTIONS_REQUEST));
+        // API Call is an async call so we need to use async and await or promises here 
+        const promotions = ApiCall.getPromotions();
+        dispatch(getPromotionsSuccess(promotions));
     };
 }
 

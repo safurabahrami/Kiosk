@@ -24,4 +24,7 @@ export default class APIService {
     static getScannedItems() {
         return data.scanned;
     }
+    static getPromotions() {
+        return data.promotions;
+    }
 }
