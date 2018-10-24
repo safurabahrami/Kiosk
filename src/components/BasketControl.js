@@ -4,7 +4,7 @@ import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
-import InventoryItemComponent from './InventoryItemComponent';
+import BasketItem from './BasketItem';
 import { getSortedScannedProductIds } from '../redux/selectors';
 
 const styles = theme => ({
@@ -22,7 +22,7 @@ class BasketControl extends React.Component {
         const { scannedProductIds, classes } = this.props;
         return(
             <Paper className={classes.root}>
-                { scannedProductIds.map(productId => <InventoryItemComponent key={productId} productId={productId} />)}
+                { scannedProductIds.map(productId => <BasketItem key={productId} productId={productId} />)}
             </Paper>
         );
     }

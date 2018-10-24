@@ -31,7 +31,7 @@ const styles = theme => ({
     }
   });
 
-const BasketComponent = ({basketItemsId, classes}) => {
+const Receipt = ({basketItemsId, classes}) => {
 
     return(
         <Paper className={classes.root}>
@@ -55,7 +55,7 @@ const BasketComponent = ({basketItemsId, classes}) => {
     );
 }
 
-BasketComponent.propTypes = {
+Receipt.propTypes = {
     basketItemsId: PropTypes.arrayOf(PropTypes.number).isRequired,
     classes: PropTypes.object.isRequired
 }
@@ -63,4 +63,4 @@ BasketComponent.propTypes = {
 const mapStateToProps = (state) => ({
     basketItemsId: getSortedBasketProductIds(state)
 });
-export default connect(mapStateToProps)(withStyles(styles)(BasketComponent));
+export default connect(mapStateToProps)(withStyles(styles)(Receipt));

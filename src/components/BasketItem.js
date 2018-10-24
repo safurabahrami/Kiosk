@@ -33,7 +33,7 @@ const styles = theme => ({
   });
 
 
-class InventoryItemComponent extends React.Component {
+class BasketItem extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -114,7 +114,7 @@ class InventoryItemComponent extends React.Component {
       }    
 }
 
-InventoryItemComponent.propTypes = {
+BasketItem.propTypes = {
     basketItem: PropTypes.object.isRequired,
     product: PropTypes.object.isRequired,
     inventoryQuantity: PropTypes.number.isRequired,
@@ -129,4 +129,4 @@ const mapStateToProps = (state,props) => ({
 const mapDispatchToProps = dispatch => ({
     updateBasket: (basketItem, productId, quantity, decr) => dispatch(Actions.updateBasket(basketItem, productId, quantity, decr)),
 });
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InventoryItemComponent));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(BasketItem));

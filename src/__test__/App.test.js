@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import configureStore from 'redux-mock-store';
 import toJson from 'enzyme-to-json';
 
