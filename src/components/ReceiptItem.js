@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TableCell, TableRow} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import { applyPromotion } from '../helper';
+import { applyPromotion, toFixedPrecision } from '../helper';
 
 
 const styles = theme => ({
@@ -56,7 +56,7 @@ const ReceiptItem = ({ basketItem, classes }) => {
     return(
         <Fragment>
             <RenderReceiptRow name={basketItem.productName} price={basketItem.price} total={basketItem.total} hasPromo={basketItem.promo ? true : false} key="regular" classes={classes}/>
-            { basketItem.promo &&
+            { basketItem.promo && afterPromotion.promoTotal !== `-${toFixedPrecision(0,2)}` &&
                 <RenderReceiptRow name={afterPromotion.promoTitle || "Promo"} price={afterPromotion.promoPrice} total={afterPromotion.promoTotal} isPromo={true} classes={classes}/>
             }
         </Fragment>
