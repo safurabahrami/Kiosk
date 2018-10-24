@@ -42,10 +42,9 @@ class BasketItem extends React.Component {
         }
     }
 
-    handleChange = event => {
+    handleChange = value => {
         this.setState({
-            quantity: event.target.value,
-            helperText: ""
+            quantity: value
         });
     };
     onClickAddToBasket = (basketItem, productId, quantity) => {
@@ -75,7 +74,7 @@ class BasketItem extends React.Component {
                 </Typography>
                 <TextField
                     id="with-adornment"
-                    placeholder="QUANTITY"
+                    placeholder="quantity"
                     className={classNames(classes.margin, classes.textField)}
                     InputProps={{
                         startAdornment: <InputAdornment position="start">#</InputAdornment>,
@@ -88,9 +87,11 @@ class BasketItem extends React.Component {
                             || (basketItem && event.target.value <= basketItem.quantity))
                         ){
                             this.setState({helperText: ""})
-                            return this.handleChange(event)
+                            return this.handleChange(event.target.value)
                         }
-                        return this.setState({helperText: `Only ${remainedNumberInventory} items can be added`})
+                        this.setState({helperText: `only ${remainedNumberInventory} items left`})
+                        let maxItem = Math.max(basketItem.quantity,remainedNumberInventory)
+                        return this.handleChange(maxItem);
                     }}
                 />
                 <Button
