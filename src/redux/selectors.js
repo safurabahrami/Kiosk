@@ -1,21 +1,22 @@
 import Immutable from 'seamless-immutable';
+import { toFixedPrecision, applyPromotion} from '../Helper';
 
 export const getInventory = state => state.products.products;
 export const getScannedItems = state => state.basket.scannedItems;
 export const getBasketItems = state => state.basket.scannedItems.filter(item => item.quantity !==0);
 export const getProductById = (state, productId) => state.products.products.find(product => product.id === productId)
-export const getPromotionsByProductId = (state, productId) => {
-    return state.products.promotions.filter(promo => promo.payload.productId === productId);
+export const getPromotionByProductId = (state, productId) => {
+    return state.products.promotions.find(promo => promo.payload.productId === productId);
 }
 export const getBasketItem = (state, productId) => {
     const basketItemState = state.basket.scannedItems.find(item => item.productId === productId);
     const product = getProductById(state, basketItemState.productId);
-    const promos = getPromotionsByProductId(state, basketItemState.productId);
+    const promo = getPromotionByProductId(state, basketItemState.productId);
     return {
         "productName": product.name,
         "price": `$${product.price} x ${basketItemState.quantity}`,
         "total": toFixedPrecision(product.price * basketItemState.quantity,2),
-        "promos": promos,
+        "promo": promo,
         "quantity": basketItemState.quantity
     }
 }
@@ -65,10 +66,20 @@ export const getBasketSubTotalPrice = state => {
     return toFixedPrecision(0, 2);
 }
 
-export const getTotalDiscount = state => toFixedPrecision(0,2);
+export const getTotalDiscount = state => {
+    const basketItems = getBasketItems(state);
+    if (basketItems && basketItems.length > 0) {
+        return toFixedPrecision(basketItems.reduce((acc,item) => {
+            const basketItem = getBasketItem(state, item.productId)
+            const promotion = getPromotionByProductId(state, item.productId);
+            if (promotion) {
+                const { promoTotal } = applyPromotion(promotion, basketItem);
+                return Number.parseFloat(promoTotal) + acc;
+            }
+            return acc;
+        },0),2);
+    }
+    return toFixedPrecision(0,2)
+};
 
-// Ref: https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
-// Test in jsfiddle: http://jsfiddle.net/cCX5y/3/
-export const toFixedPrecision = function(num, precision) {
-    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
-}
+

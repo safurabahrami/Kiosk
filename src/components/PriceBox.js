@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Table, TableBody, TableCell, TableRow} from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount, toFixedPrecision } from '../redux/selectors';
+import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
+import { toFixedPrecision } from '../Helper';
 
 const RenderPriceRow = ({title, value, noBorder}) => {
     return (
@@ -34,8 +35,8 @@ const styles = theme => ({
     },
 });
 
-const PriceBox = ({basketItems, classes, subTotalPrice, totalDiscount}) => {
-    const total = toFixedPrecision(subTotalPrice - totalDiscount, 2);
+const PriceBox = ({classes, subTotalPrice, totalDiscount}) => {
+    const total = toFixedPrecision(Number.parseFloat(subTotalPrice) + (Number.parseFloat(totalDiscount)), 2);
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>
