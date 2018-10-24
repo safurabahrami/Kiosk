@@ -54,17 +54,16 @@ const groupPromotion = (payload, basketItem) => {
 			"quantity": q
 		}
 	*/
-	const basketQuantity = basketItem.quantity;
-	let withSaleQuantity = Number.parseInt(basketQuantity / payload.quantity);
-	let withOutSaleQuantity = basketQuantity % payload.quantity;
-	let originPrice = basketItem.total / basketQuantity;
-	let newPrice =  withSaleQuantity * payload.salePrice + originPrice * withOutSaleQuantity;
-	const promoTotal = toFixedPrecision(basketItem.total - newPrice,2)
+	const withOutSaleQuantity = basketItem.quantity % payload.quantity;
+	const withSaleQuantity = basketItem.quantity - withOutSaleQuantity;
+	const originPrice = basketItem.total / basketItem.quantity;
+	const newPrice =  withSaleQuantity * payload.salePrice + originPrice * withOutSaleQuantity;
+	const promoTotal = toFixedPrecision(basketItem.total - newPrice, 2);
 	const promoObject = {
 		"promoPrice": "",
 		"promoTotal": `-${promoTotal}`,
 		"promoTitle": payload.title
-	}
+	};
 	return promoObject;
  
 }
@@ -79,13 +78,12 @@ const additionalProductDiscount = (payload, basketItem) => {
 			"salePercentage": p
 		}
 	*/
-	const basketQuantity = basketItem.quantity;
-	let withSaleQuantity = Number.parseInt(basketQuantity / (payload.quantity + 1));
-	let withoutSalePrice = basketItem.total / basketQuantity;
-	let withSaleItemsPrice = withSaleQuantity * withoutSalePrice * (100 - payload.salePercentage) / 100;
-	let withOutSaleQuantity = basketItem.quantity - withSaleQuantity;
-	let withoutSaleItemsPrice = withoutSalePrice * withOutSaleQuantity;
-	let newPrice =  withoutSaleItemsPrice + withSaleItemsPrice;
+	const withSaleQuantity = Number.parseInt(basketItem.quantity / (payload.quantity + 1));
+	const withOutSaleQuantity = basketItem.quantity - withSaleQuantity;
+	const originPrice = basketItem.total / basketItem.quantity;
+	const withSaleItemsPrice = withSaleQuantity * originPrice * (100 - payload.salePercentage) / 100;
+	const withoutSaleItemsPrice = originPrice * withOutSaleQuantity;
+	const newPrice =  withoutSaleItemsPrice + withSaleItemsPrice;
 	const promoTotal = toFixedPrecision(basketItem.total - newPrice ,2)
 	const promoObject = {
 		"promoPrice": "",
