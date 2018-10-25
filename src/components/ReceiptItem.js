@@ -56,7 +56,7 @@ const ReceiptItem = ({ basketItem, classes }) => {
     return(
         <Fragment>
             <RenderReceiptRow name={basketItem.productName} price={basketItem.price} total={basketItem.total} hasPromo={basketItem.promo ? true : false} key="regular" classes={classes}/>
-            { basketItem.promo && afterPromotion.promoTotal !== `-${toFixedPrecision(0,2)}` &&
+            { basketItem.promo && afterPromotion.promoTotal !== `${toFixedPrecision(0,2)}` &&
                 <RenderReceiptRow name={afterPromotion.promoTitle || "Promo"} price={afterPromotion.promoPrice} total={afterPromotion.promoTotal} isPromo={true} classes={classes}/>
             }
         </Fragment>

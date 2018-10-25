@@ -12,21 +12,22 @@ export const applyPromotion = (promotion, basketItem) => {
         default:
             return (
                 {
-					promoPrice: "0",
-					promoTotal: "0",
-					promoTitle: "Promo"
+									promoPrice: "0",
+									promoTotal: "0",
+									promoTitle: "Promo"
                 }
             );
     }
 }
 
-const singleProductSale = (payload, basketItem) => {
+export const singleProductSale = (payload, basketItem) => {
 	/*
-		Product i with the sale price p
+		Promotion with title t is for product i with the sale price of p 
 		PayLoad for the SINGLE_PRODUCT_SALE promotion looks like this:
 		{
 			productId: i,
-			salePrice: p
+			salePrice: p,
+			title: t
 		}
 	*/
 	const promoTotal = toFixedPrecision(basketItem.total - (payload.salePrice * basketItem.quantity),2)
@@ -37,50 +38,56 @@ const singleProductSale = (payload, basketItem) => {
 	};
 }
 
-const groupPromotion = (payload, basketItem) => {
+export const groupPromotion = (payload, basketItem) => {
 	/*
-		Buying q quantity of product i with the sale price p
+		Promotion with title t is for buying q quantity of product i with the sale price p
 		PayLoad for the GROUP_PROMOTIONAL_PRICE promotion looks like this:
 		{
-			"productId": i,
-			"salePrice": p,
-			"quantity": q
+			productId: i,
+			salePrice: p,
+			quantity: q,
+			title: t
 		}
 	*/
 	const basketQuantity = basketItem.quantity;
-	let withSaleQuantity = Number.parseInt(basketQuantity / payload.quantity);
-	let withOutSaleQuantity = basketQuantity % payload.quantity;
-	let originPrice = basketItem.total / basketQuantity;
-	let newPrice =  withSaleQuantity * payload.salePrice + originPrice * withOutSaleQuantity;
-	const promoTotal = toFixedPrecision(basketItem.total - newPrice,2)
+	const withSaleQuantity = Number.parseInt(basketQuantity / payload.quantity);
+	const withOutSaleQuantity = basketQuantity % payload.quantity;
+	const originPrice = basketItem.total / basketQuantity;
+	const newPrice =  withSaleQuantity * payload.salePrice + originPrice * withOutSaleQuantity;
+	const promoTotal = basketItem.total === newPrice ?
+			toFixedPrecision(basketItem.total - newPrice,2):
+			`-${toFixedPrecision(basketItem.total - newPrice,2)}`;
 	return {
 		"promoPrice": "",
-		"promoTotal": `-${promoTotal}`,
+		"promoTotal": promoTotal,
 		"promoTitle": payload.title
 	};
 }
 
-const additionalProductDiscount = (payload, basketItem) => {
+export const additionalProductDiscount = (payload, basketItem) => {
 	/*
-		Buying q quantity of product i get additional one p% discount
+		Promotion with title t is for buying q quantity of product i get additional one p% discount
 		PayLoad for the ADDITIONAL_PRODUCT_DISCOUNT promotion looks like this:
 		{
-			"productId": i,
-			"quantity": q,
-			"salePercentage": p
+			productId: i,
+			quantity: q,
+			salePercentage: p,
+			title: t
 		}
 	*/
 	const basketQuantity = basketItem.quantity;
-	let withSaleQuantity = Number.parseInt(basketQuantity / (payload.quantity + 1));
-	let withoutSalePrice = basketItem.total / basketQuantity;
-	let withSaleItemsPrice = withSaleQuantity * withoutSalePrice * (100 - payload.salePercentage) / 100;
-	let withOutSaleQuantity = basketItem.quantity - withSaleQuantity;
-	let withoutSaleItemsPrice = withoutSalePrice * withOutSaleQuantity;
-	let newPrice =  withoutSaleItemsPrice + withSaleItemsPrice;
-	const promoTotal = toFixedPrecision(basketItem.total - newPrice ,2)
+	const withSaleQuantity = Number.parseInt(basketQuantity / (payload.quantity + 1));
+	const withoutSalePrice = basketItem.total / basketQuantity;
+	const withSaleItemsPrice = withSaleQuantity * withoutSalePrice * (100 - payload.salePercentage) / 100;
+	const withOutSaleQuantity = basketItem.quantity - withSaleQuantity;
+	const withoutSaleItemsPrice = withoutSalePrice * withOutSaleQuantity;
+	const newPrice =  withoutSaleItemsPrice + withSaleItemsPrice;
+	const promoTotal = basketItem.total === newPrice ?
+			toFixedPrecision(basketItem.total - newPrice,2) :
+			`-${toFixedPrecision(basketItem.total - newPrice,2)}`;
 	return {
 		"promoPrice": "",
-		"promoTotal": `-${promoTotal}`,
+		"promoTotal": promoTotal,
 		"promoTitle": payload.title
 	}; 
 }

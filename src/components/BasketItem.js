@@ -98,7 +98,7 @@ class BasketItem extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
-                    disabled={validateAdd(quantity, basketItem, inventoryQuantity)}
+                    disabled={!validateAdd(quantity, basketItem, inventoryQuantity)}
                     onClick={() => this.onClickAddToBasket(basketItem, productId, quantity)}
                 >Add
                 </Button>
@@ -106,7 +106,7 @@ class BasketItem extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '180px' }}
-                    disabled={validateRemove(quantity, basketItem)}
+                    disabled={!validateRemove(quantity, basketItem)}
                     onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
                 >Remove
                 </Button>  
