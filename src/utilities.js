@@ -1,5 +1,9 @@
-// Ref: https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
-// Test in jsfiddle: http://jsfiddle.net/cCX5y/3/
-export const toFixedPrecision = function(num, precision) {
-	return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
-}
+import Money from './Money';
+
+// function to convert JSONMoney to Money specified by 'price' key
+export const mapProductJSONMoneyFunc = (item) => {
+	if (!item['price']) {
+		return item;
+	}
+	return Object.assign({}, item, {'price':Money.fromJSON(item['price'])});
+};

@@ -17,7 +17,10 @@ export function getProducts() {
     return (dispatch) => {
         dispatch(updateLoadingState(ActionTypes.GET_PRODUCTS_REQUEST));
         // API Call is an async call so we need to use async and await or promises here 
-        const products = ApiCall.getProducts();
+        const products = ApiCall.getProducts().map(({price, ...args}) => ({
+            price: price.toJSON(),
+            ...args
+        }));
         dispatch(getProductsSuccess(products));
         
     };

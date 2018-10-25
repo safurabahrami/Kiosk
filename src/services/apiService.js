@@ -1,8 +1,15 @@
 import * as data from '../resources/dataSource'
+import Money from '../Money';
+
 export default class APIService {
 
     static getProducts() {
-        return data.products;
+        const products = data.products;
+        //convert prices to Money
+        return products.map(({price, ...args}) => ({
+            price: Money.fromNumber(price),
+            ...args
+        }));
     }
     static getScannedItems() {
         return data.scanned;

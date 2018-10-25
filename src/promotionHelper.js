@@ -1,5 +1,5 @@
 import PromotionTypes from './types/PromotionTypes';
-import { toFixedPrecision } from "./utilities";
+import Money from './Money';
 
 export const applyPromotion = (promotion, basketItem) => {
     switch(promotion.type){
@@ -12,9 +12,9 @@ export const applyPromotion = (promotion, basketItem) => {
         default:
             return (
                 {
-									promoPrice: "0",
-									promoTotal: "0",
-									promoTitle: "Promo"
+					promoPrice: Money.fromNumber(0.00),
+					promoTotal: Money.fromNumber(0.00),
+					promoTitle: "Promo"
                 }
             );
     }
@@ -30,10 +30,11 @@ export const singleProductSale = (payload, basketItem) => {
 			title: t
 		}
 	*/
-	const promoTotal = toFixedPrecision(basketItem.total - (payload.salePrice * basketItem.quantity),2)
+	const salePrice = Money.fromNumber(payload.salePrice);
+	const promoTotal = basketItem.total.subtract(salePrice.multiply(basketItem.quantity))
 	return {
-		"promoPrice": `${payload.salePrice}`,
-		"promoTotal": `-${promoTotal}`,
+		"promoPrice": salePrice,
+		"promoTotal": promoTotal.multiply(-1),
 		"promoTitle": payload.title
 	};
 }
@@ -49,17 +50,16 @@ export const groupPromotion = (payload, basketItem) => {
 			title: t
 		}
 	*/
+	const salePrice = Money.fromNumber(payload.salePrice);
 	const basketQuantity = basketItem.quantity;
 	const withSaleQuantity = Number.parseInt(basketQuantity / payload.quantity);
 	const withOutSaleQuantity = basketQuantity % payload.quantity;
-	const originPrice = basketItem.total / basketQuantity;
-	const newPrice =  withSaleQuantity * payload.salePrice + originPrice * withOutSaleQuantity;
-	const promoTotal = basketItem.total === newPrice ?
-			toFixedPrecision(basketItem.total - newPrice,2):
-			`-${toFixedPrecision(basketItem.total - newPrice,2)}`;
+	const originPrice = basketItem.total.divide(basketQuantity); 
+	const newPrice =  salePrice.multiply(withSaleQuantity).add(originPrice.multiply(withOutSaleQuantity));
+	const promoTotal = basketItem.total.subtract(newPrice);
 	return {
-		"promoPrice": "",
-		"promoTotal": promoTotal,
+		"promoPrice": null,
+		"promoTotal": promoTotal.multiply(-1),
 		"promoTitle": payload.title
 	};
 }
@@ -77,17 +77,15 @@ export const additionalProductDiscount = (payload, basketItem) => {
 	*/
 	const basketQuantity = basketItem.quantity;
 	const withSaleQuantity = Number.parseInt(basketQuantity / (payload.quantity + 1));
-	const withoutSalePrice = basketItem.total / basketQuantity;
-	const withSaleItemsPrice = withSaleQuantity * withoutSalePrice * (100 - payload.salePercentage) / 100;
+	const originPrice = basketItem.total.divide(basketQuantity); 
+	const withSaleItemsPrice = originPrice.multiply(withSaleQuantity).multiply((100 - payload.salePercentage) / 100);
 	const withOutSaleQuantity = basketItem.quantity - withSaleQuantity;
-	const withoutSaleItemsPrice = withoutSalePrice * withOutSaleQuantity;
-	const newPrice =  withoutSaleItemsPrice + withSaleItemsPrice;
-	const promoTotal = basketItem.total === newPrice ?
-			toFixedPrecision(basketItem.total - newPrice,2) :
-			`-${toFixedPrecision(basketItem.total - newPrice,2)}`;
+	const withoutSaleItemsPrice = originPrice.multiply(withOutSaleQuantity);
+	const newPrice =  withoutSaleItemsPrice.add(withSaleItemsPrice);
+	const promoTotal = basketItem.total.subtract(newPrice);
 	return {
-		"promoPrice": "",
-		"promoTotal": promoTotal,
+		"promoPrice": null,
+		"promoTotal": promoTotal.multiply(-1),
 		"promoTitle": payload.title
 	}; 
 }

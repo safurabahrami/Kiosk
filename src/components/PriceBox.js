@@ -6,7 +6,6 @@ import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
-import { toFixedPrecision } from '../utilities';
 
 const RenderPriceRow = ({title, value, noBorder}) => {
     return (
@@ -37,18 +36,18 @@ const styles = theme => ({
 });
 
 const PriceBox = ({classes, subTotalPrice, totalDiscount}) => {
-    const total = toFixedPrecision(Number.parseFloat(subTotalPrice) + (Number.parseFloat(totalDiscount)), 2);
+    const total = subTotalPrice.add(totalDiscount);
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableBody>
-                    <RenderPriceRow title="Subtotal" value={subTotalPrice} noBorder={true} />
-                    <RenderPriceRow title="Discount" value={totalDiscount} />
+                    <RenderPriceRow title="Subtotal" value={subTotalPrice.toString()} noBorder={true} />
+                    <RenderPriceRow title="Discount" value={totalDiscount.toString()} />
                 </TableBody>
             </Table>
             <Table className={classes.table}>
                 <TableBody>
-                    <RenderPriceRow title="Total" value={total} />
+                    <RenderPriceRow title="Total" value={total.toString()} />
                 </TableBody>
             </Table>
         </Paper>
@@ -58,8 +57,8 @@ const PriceBox = ({classes, subTotalPrice, totalDiscount}) => {
 PriceBox.propTypes = {
     basketItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     classes: PropTypes.object.isRequired,
-    subTotalPrice: PropTypes.string.isRequired,
-    totalDiscount: PropTypes.string.isRequired
+    subTotalPrice: PropTypes.object.isRequired,
+    totalDiscount: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({

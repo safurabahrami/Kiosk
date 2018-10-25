@@ -10,7 +10,6 @@ import { customizedThemes } from './style/style';
 import { store } from './redux/configureStore';
 
 const theme = createMuiTheme(customizedThemes);
-
 ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider theme={theme}>
