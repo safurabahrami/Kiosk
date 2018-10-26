@@ -9,6 +9,7 @@ exports[`render BasketItem match snapshots 1`] = `
   }
   classes={
     Object {
+      "button": "BasketItem-button-6",
       "margin": "BasketItem-margin-2",
       "productTitle": "BasketItem-productTitle-5",
       "root": "BasketItem-root-1",
@@ -32,9 +33,20 @@ exports[`textField events when all the inventory is purchased  match snapshots 1
   >
     (s)
   </WithStyles(Typography)>
+  <WithStyles(Button)
+    aria-label="Add"
+    className="BasketItem-button-6"
+    color="secondary"
+    disabled={false}
+    onClick={[Function]}
+    variant="fab"
+  >
+    <pure(RemoveIcon) />
+  </WithStyles(Button)>
   <TextField
     InputProps={
       Object {
+        "className": undefined,
         "startAdornment": <WithStyles(InputAdornment)
           position="start"
         >
@@ -54,30 +66,14 @@ exports[`textField events when all the inventory is purchased  match snapshots 1
     variant="standard"
   />
   <WithStyles(Button)
+    aria-label="Add"
+    className="BasketItem-button-6"
     color="primary"
     disabled={true}
     onClick={[Function]}
-    style={
-      Object {
-        "minWidth": "180px",
-      }
-    }
-    variant="contained"
+    variant="fab"
   >
-    Add
-  </WithStyles(Button)>
-  <WithStyles(Button)
-    color="primary"
-    disabled={false}
-    onClick={[Function]}
-    style={
-      Object {
-        "minWidth": "180px",
-      }
-    }
-    variant="contained"
-  >
-    Remove
+    <pure(AddIcon) />
   </WithStyles(Button)>
 </div>
 `;
