@@ -1,4 +1,7 @@
 # Front-end Coding Exercise
+Simple Self Checkout App
+![Demo](https://github.com/safurabahrami/Kiosk/raw/dev/kiosk.gif)
+
 ## Getting Started
 Run ``` npm install ``` to install dependencies based on the package.json
 For debugging you might use react developer tools
@@ -18,30 +21,28 @@ kiosk/
     index.html
     favicon.ico
   src/
-    __test__/
-    components/
-    redux/
+    __test__/ --> using jest and enzyme for testing (used the same structure)
+    components/ --> components and related helpers are in this folder
+    redux/  --> Actions, ActionTypes, reducers, and related configuration for store
       actionCreators/
       reducers/
       configureStore.js
       selector.js
-    resources/
+    resources/  --> dataSource for the app
       dataSource.json
-    services/
+    services/  --> helpers for API call or other services
       apiService.js
-    styles/
-      App.css
+      promotionService.js
+    styles/ --> style related files
       index.css
       style.js
-    types/
+    types/ --> general types
       PromotionTypes.js
-    App.js
-    promotionHelper.js
     index.js
     serviceWorker.js
     setupTests
     utilities.js
-    .eslintrc
+    .eslintrc.js --> eslint config based on airbnb
 ```
 ## Available Scripts
 To run the app:
@@ -63,6 +64,16 @@ You can run:
 To override the snapshots run:
 ### `npm test -- -u`
 
+## Lint
+I am using eslint rule which are subset of airbnb style guide.
+To run eslint over the project and see all the errors:
+`./node_modules/.bin/eslint "src/**/*.js"`
+
+Some issues can be fixed automatically using the command:
+`./node_modules/.bin/eslint --fix "src/**/*.js"`
+
+
+
 ## Supported Browsers
 By default, the generated project from create-react-app supports all modern browsers.<br>
 Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md).
@@ -83,6 +94,7 @@ Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.
 
 
 ## Future works
+- I have some tests for different part of the project, I need to add more tests to extend the coverage
 - For pricing issues (floating-point logic and arithmetic), I am using a Money class with simple implementation based on [this](https://martinfowler.com/eaaCatalog/money.html). For further implementation, it might be good to use libraries such as [dinero](https://sarahdayan.github.io/dinero.js/)
 - Inventory amount can be updated using web socket or API calls later if needed
 - More tests can be added for have more coverage
@@ -93,7 +105,20 @@ Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.
 - Using css preprocessor would be helpful to add more flexibility
 - Improving the UI/UX
 - Only effective promotions will be shown on the receipt items but as a future work one can show the related promotion on each of the scanned items
+- Add style preprocessor (Sass) and make the styles more consistent
+- Add Error handlers and request failure handlers
+- Receipt layout can be more user friendly
+- Adding regex not to allow user insert +/- sign in quantity input
+
 
 ## Configuration
 ### How to add a new Promotion/Product/Scanned Item
-Inside the /src/resources/dataSource.json there is a JSON file including products, promotions and scanned Items.
+Inside the /src/resources/ there is a dataSource.json file which includes products, promotions and scanned Items with a simple structure. You can add new product, scanned item and promotion there.
+
+Promotions: In each promotion we have the promotion type and its specific payload which can be different for different promotion types. if we want to add new promotion type we need to add the handler/implementation for that promotion in /src/services/promotionService.js
+
+Products: In each product we have a simple structure with the related inventory (number of items in kiosk's inventory). I could have a separate array of inventories as well to have more flat state.
+
+ScannedItems: Items which we are assuming have been scanned by user with no specific order. We can have multiple records for each item.
+
+
