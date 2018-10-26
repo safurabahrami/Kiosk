@@ -5,7 +5,7 @@ import toJson from 'enzyme-to-json';
 import App from '../App';
 
 const mockStore = configureStore()
-let store = mockStore({})
+const store = mockStore({})
 
 describe('renders without crashing', () => {
   let wrapper;

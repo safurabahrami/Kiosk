@@ -90,7 +90,7 @@ class BasketItem extends React.Component {
                             return this.handleChange(event.target.value)
                         }
                         this.setState({helperText: `only ${remainedNumberInventory} items left`})
-                        let maxItem = Math.max(basketItem.quantity,remainedNumberInventory)
+                        const maxItem = Math.max(basketItem.quantity,remainedNumberInventory)
                         return this.handleChange(maxItem);
                     }}
                 />

@@ -51,8 +51,8 @@ describe("textField events when all the inventory is purchased ", () => {
     const eventQuantity = { target: { value: 5 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     expect(wrapper.state().quantity).toEqual(5);
-    let addButton = wrapper.find(Button).at(0);
-    let removeButton = wrapper.find(Button).at(1);
+    const addButton = wrapper.find(Button).at(0);
+    const removeButton = wrapper.find(Button).at(1);
     expect(addButton.props().disabled).toBe(true);
     expect(removeButton.props().disabled).toBe(false);
   });
@@ -61,8 +61,8 @@ describe("textField events when all the inventory is purchased ", () => {
     const eventQuantity = { target: { value: 10} };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     expect(wrapper.state().quantity).toEqual(7);
-    let addButton = wrapper.find(Button).at(0);
-    let removeButton = wrapper.find(Button).at(1);
+    const addButton = wrapper.find(Button).at(0);
+    const removeButton = wrapper.find(Button).at(1);
     expect(addButton.props().disabled).toBe(true);
     expect(removeButton.props().disabled).toBe(false);
   });
@@ -87,8 +87,8 @@ describe("textField events When 3 of 7 inventory has been added", () => {
   it("change textbox to 4 - add enable remove disable", () => {
     const eventQuantity = { target: { value: 4 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
-    let addButton = wrapper.find(Button).at(0);
-    let removeButton = wrapper.find(Button).at(1);
+    const addButton = wrapper.find(Button).at(0);
+    const removeButton = wrapper.find(Button).at(1);
     expect(wrapper.state().quantity).toEqual(4);
     expect(addButton.props().disabled).toBe(false);
     expect(removeButton.props().disabled).toBe(true);
@@ -97,8 +97,8 @@ describe("textField events When 3 of 7 inventory has been added", () => {
   it("change textbox to 2 -  add and remove enable", () => {
     const eventQuantity = { target: { value: 2} };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
-    let addButton = wrapper.find(Button).at(0);
-    let removeButton = wrapper.find(Button).at(1);
+    const addButton = wrapper.find(Button).at(0);
+    const removeButton = wrapper.find(Button).at(1);
     expect(wrapper.state().quantity).toEqual(2);
     expect(addButton.props().disabled).toBe(false);
     expect(removeButton.props().disabled).toBe(false);
@@ -123,8 +123,8 @@ describe("textField events When 0 of 7 inventory has been added", () => {
 
   it("not changing the texbox - add enable remove disable", () => {
     expect(wrapper.state().quantity).toEqual(1);
-    let addButton = wrapper.find(Button).at(0);
-    let removeButton = wrapper.find(Button).at(1);
+    const addButton = wrapper.find(Button).at(0);
+    const removeButton = wrapper.find(Button).at(1);
     expect(addButton.props().disabled).toBe(false);
     expect(removeButton.props().disabled).toBe(true);
   });

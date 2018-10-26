@@ -20,7 +20,7 @@ export default function BasketReducer(state = initialState, action) {
         case ActionTypes.GET_SCANNED_ITEMS_SUCCESS:
             // Group by response.product
             // set basketItems with accumulated quantities
-            let mergedItems = action.response.reduce((acc, item) => {
+            const mergedItems = action.response.reduce((acc, item) => {
                 if (acc.has(item.productId)){
                     acc.set(item.productId, acc.get(item.productId) + item.quantity);
                 }else{
@@ -29,7 +29,7 @@ export default function BasketReducer(state = initialState, action) {
                 return acc;
             },new Map());
 
-            let scannedItems = [];
+            const scannedItems = [];
             mergedItems.forEach((value, key) => {
                 scannedItems.push({
                     "productId": key,
