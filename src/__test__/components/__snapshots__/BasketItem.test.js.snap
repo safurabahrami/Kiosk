@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render BasketItem match snapshots 1`] = `
+<BasketItem
+  basketItem={
+    Object {
+      "quantity": 7,
+    }
+  }
+  classes={
+    Object {
+      "button": "BasketItem-button-6",
+      "margin": "BasketItem-margin-2",
+      "productTitle": "BasketItem-productTitle-5",
+      "root": "BasketItem-root-1",
+      "textField": "BasketItem-textField-4",
+      "withoutLabel": "BasketItem-withoutLabel-3",
+    }
+  }
+  inventoryQuantity={5}
+  product={Object {}}
+  updateBasket={[Function]}
+/>
+`;
+
+exports[`textField events when all the inventory is purchased  match snapshots 1`] = `
+<div
+  className="BasketItem-root-1"
+>
+  <WithStyles(Typography)
+    className="BasketItem-productTitle-5"
+    variant="subtitle1"
+  >
+    (s)
+  </WithStyles(Typography)>
+  <WithStyles(Button)
+    aria-label="Add"
+    className="BasketItem-button-6"
+    color="secondary"
+    disabled={false}
+    onClick={[Function]}
+    variant="fab"
+  >
+    <pure(RemoveIcon) />
+  </WithStyles(Button)>
+  <TextField
+    InputProps={
+      Object {
+        "className": undefined,
+        "startAdornment": <WithStyles(InputAdornment)
+          position="start"
+        >
+          #
+        </WithStyles(InputAdornment)>,
+      }
+    }
+    className="BasketItem-margin-2 BasketItem-textField-4"
+    helperText=""
+    id="with-adornment"
+    onChange={[Function]}
+    placeholder="item"
+    required={false}
+    select={false}
+    type="number"
+    value={1}
+    variant="standard"
+  />
+  <WithStyles(Button)
+    aria-label="Add"
+    className="BasketItem-button-6"
+    color="primary"
+    disabled={true}
+    onClick={[Function]}
+    variant="fab"
+  >
+    <pure(AddIcon) />
+  </WithStyles(Button)>
+</div>
+`;

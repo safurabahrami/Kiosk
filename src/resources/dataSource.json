@@ -1,0 +1,107 @@
+{
+    "products":[
+        {
+            "id": 1,
+            "name": "Apple",
+            "price": 0.33,
+            "inventory": 7
+        },
+        {
+            "id": 2,
+            "name": "Orange",
+            "price": 1.2,
+            "inventory": 5
+        },
+        {
+            "id": 3,
+            "name": "Banana",
+            "price": 0.5,
+            "inventory": 25
+        },
+        {
+            "id": 4,
+            "name": "Sour Cherry",
+            "price": 2.5,
+            "inventory": 15
+        },
+        {
+            "id": 5,
+            "name": "Tomato",
+            "price": 1,
+            "inventory": 7
+        }
+    ],
+    "scanned":[
+        {
+            "id": 1,
+            "productId": 1,
+            "quantity": 1
+        },
+        {
+            "id": 2,
+            "productId": 4,
+            "quantity": 2
+        },
+        {
+            "id": 3,
+            "productId": 1,
+            "quantity": 2
+        },
+        {
+            "id": 4,
+            "productId": 3,
+            "quantity": 7
+        },
+        {
+            "id": 5,
+            "productId": 2,
+            "quantity": 1
+        },
+        {
+            "id": 6,
+            "productId": 5,
+            "quantity": 2
+        }
+    ],
+    "promotions":[
+        {
+            "id": 1,
+            "type": "SINGLE_PRODUCT_SALE",
+            "payload": {
+                "productId": 1,
+                "salePrice": 0.1,
+                "title": "sale price"
+            }
+        },
+        {
+            "id": 2,
+            "type": "GROUP_PROMOTIONAL_PRICE",
+            "payload": {
+                "productId": 4,
+                "salePrice": 4.0,
+                "quantity": 2,
+                "title": "2 for 4 "
+            }
+        },
+        {
+            "id": 3,
+            "type": "ADDITIONAL_PRODUCT_DISCOUNT",
+            "payload": {
+                "productId": 3,
+                "quantity": 2,
+                "salePercentage": 50,
+                "title": "buy 2 get one 50%"
+            }
+        },
+        {
+            "id": 4,
+            "type": "ADDITIONAL_PRODUCT_DISCOUNT",
+            "payload": {
+                "productId": 2,
+                "quantity": 1,
+                "salePercentage": 100,
+                "title": "buy 1 get 1 free "
+            }
+        }
+    ]
+}
