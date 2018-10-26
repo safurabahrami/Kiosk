@@ -97,7 +97,7 @@ class BasketItem extends React.Component {
           </Button>
           <TextField
                     id="with-adornment"
-                    placeholder="quantity"
+                    placeholder="item"
                     className={classNames(classes.margin, classes.textField, { inputType: classes.inputStyle })}
                     InputProps={{
                       startAdornment: <InputAdornment position="start">#</InputAdornment>,

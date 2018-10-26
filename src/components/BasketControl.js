@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
@@ -22,6 +22,11 @@ class BasketControl extends React.Component {
     const { scannedProductIds, classes } = this.props;
     return (
       <Paper className={classes.root}>
+        <div style={{ marginLeft: '69%' }}>
+          <Typography variant="body1">
+            Quantity
+          </Typography>
+        </div>
         { scannedProductIds.map(productId => <BasketItem key={productId} productId={productId} />)}
       </Paper>
     );
