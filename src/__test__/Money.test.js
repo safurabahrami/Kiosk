@@ -1,70 +1,76 @@
 import Money from '../Money';
 
+const expectToEqualMoney = (actual, expected) =>{
+    expect(actual.equalsTo(expected)).toEqual(true);
+} 
+
 describe('Money',()=>{
     test.each([
-        [2.5, "2.50"],
-        [-2.5, "-2.50"],
-        [2.457, "2.46"],
-        [-2.457, "-2.46"]
+        [2.5, 2.50],
+        [-2.5, -2.50],
+        [2.457, 2.46],
+        [-2.457, -2.46]
     ])('Create: %d',(n1, expected)=>{
-        expect(Money.fromNumber(n1).toString()).toEqual(expected);
+        expectToEqualMoney(Money.fromNumber(n1), Money.fromNumber(expected))
     })
 
     test.each([
-        [2.5, "2.50"],
-        [-5.61, "-5.61"],
-        [-2.756, "-2.76"],
-        [0, "0.00"],
-        [0.0, "0.00"]
+        [2.5, "$2.50"],
+        [-5.61, "$-5.61"],
+        [-2.756, "$-2.76"],
+        [0, "$0.00"],
+        [0.0, "$0.00"]
     ])("toString: %d outputs %s",(n, expected)=>{
         expect(Money.fromNumber(n).toString()).toEqual(expected)
     })
 
     test.each([
-        [0, -1, "0.00"],
-        [1.5, 2, "3.00"],
-        [2, 1.5, "3.00"],
-        [3, 1.256, "3.77"],
-        [3, 1.255, "3.76"],
-        [-2.2, -2, "4.40"]
+        [0, -1, 0.00],
+        [1.5, 2, 3.00],
+        [2, 1.5, 3.00],
+        [3, 1.256, 3.77],
+        [3, 1.255, 3.76],
+        [-2.2, -2, 4.40]
     ])('Multiply: %d by %d is %s',(n1, n2, expected)=>{
-        expect(Money.fromNumber(n1).multiply(n2).toString()).toEqual(expected);
+        const actual = Money.fromNumber(n1).multiply(n2);
+        expectToEqualMoney(actual, Money.fromNumber(expected));
     })
 
     test.each([
-        [3, 2, "1.50"],
-        [1, 3, "0.33"],
-        [100, -10, "-10.00"],
+        [3, 2, 1.50],
+        [1, 3, 0.33],
+        [100, -10, -10.00],
     ])('Divide: %d divided by %d is %s', (n1, n2, expected)=>{
-        expect(Money.fromNumber(n1).divide(n2).toString()).toEqual(expected);
+        const actual = Money.fromNumber(n1).divide(n2);
+        expectToEqualMoney(actual, Money.fromNumber(expected));
     })
 
     test.each([
-        [1.2, 1.54, "2.74"],
-        [1.2, -1.33, "-0.13"]
+        [1.2, 1.54, 2.74],
+        [1.2, -1.33, -0.13]
     ])('Addition: %d + %d is %s', (n1, n2, expected) => {
-        const mn1 = Money.fromNumber(n1);
-        const mn2 = Money.fromNumber(n2);
-        expect(mn1.add(mn2).toString()).toBe(expected);
+        const actual = Money.fromNumber(n1).add(Money.fromNumber(n2));
+        expectToEqualMoney(actual, Money.fromNumber(expected));
     })
 
     test.each([
-        [1.2, 1.2, "0.00"],
-        [5.5, 6.52, "-1.02"],
-        [0,0.0,"0.00"]
+        [1.2, 1.2, 0.00],
+        [5.5, 6.52, -1.02],
+        [0,0.0,0.00]
     ])('Subtract: %d - %d is %s', (n1, n2, expected)=>{
-        const mn1 = Money.fromNumber(n1);
-        const mn2 = Money.fromNumber(n2);
-        expect(mn1.subtract(mn2).toString()).toBe(expected);
+        const actual = Money.fromNumber(n1).subtract(Money.fromNumber(n2));
+        expectToEqualMoney(actual, Money.fromNumber(expected));
     })
 
-    test('isZero',()=>{
-        expect(Money.fromNumber(0.00).isZero()).toBe(true);
-        expect(Money.fromNumber(0.001).isZero()).toBe(true);
-        expect(Money.fromNumber(0.009).isZero()).toBe(false);
-        expect(Money.fromNumber(-0.001).isZero()).toBe(true);
-        expect(Money.fromNumber(-0.009).isZero()).toBe(false);
-        expect(Money.fromNumber(0*-1).isZero()).toBe(true);
+    test.each([
+        [0.00, true],
+        [0.001, true],
+        [0.009, false],
+        [-0.001, true],
+        [-0.009, false],
+        [0*-1, true]
+    ])('isZero: on %d should be %b', (n1, expected)=>{
+        expect(Money.fromNumber(n1).isZero()).toBe(expected);
     })
 
     test('toJSON/fromJSON',()=>{

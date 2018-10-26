@@ -23,7 +23,7 @@ export default class Money {
 
     toString() {
         //https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
-        return (+(this.amount+'e'+-PRECISION)).toFixed(PRECISION);
+        return '$' + (+(this.amount+'e'+-PRECISION)).toFixed(PRECISION);
     }
 
     toJSON() {
