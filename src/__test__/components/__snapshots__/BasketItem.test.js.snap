@@ -58,7 +58,7 @@ exports[`textField events when all the inventory is purchased  match snapshots 1
     helperText=""
     id="with-adornment"
     onChange={[Function]}
-    placeholder="quantity"
+    placeholder="item"
     required={false}
     select={false}
     type="number"
