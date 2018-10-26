@@ -1,6 +1,6 @@
 # Front-end Coding Exercise
 Simple Self Checkout App
-![Demo](https://github.com/safurabahrami/Kiosk/raw/dev/kiosk.gif)
+![Demo](https://github.com/safurabahrami/Kiosk/raw/master/kiosk.gif)
 
 ## Getting Started
 Run ``` npm install ``` to install dependencies based on the package.json
@@ -46,6 +46,9 @@ kiosk/
 ```
 ## Available Scripts
 To run the app:
+### `npm install`
+Downloads the project dependencies based on the package.json
+
 ### `npm start`
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
