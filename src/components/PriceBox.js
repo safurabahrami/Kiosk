@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Paper, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
+import { Paper, Table, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { getBasketItems, getBasketSubTotalPrice, getTotalDiscount } from '../redux/selectors';
