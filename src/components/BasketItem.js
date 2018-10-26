@@ -11,6 +11,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import { getBasketItemByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
 import * as Actions from '../redux/actionCreators/Actions';
 import { validateAdd, validateRemove } from './BasketControlHelper';
+import { view_width } from '../style/style';
 
 const styles = theme => ({
   root: {
@@ -35,8 +36,8 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    width: '40px',
-    height: '40px',
+    width: view_width(3),
+    height: view_width(3),
   },
 });
 
@@ -136,7 +137,7 @@ class BasketItem extends React.Component {
 BasketItem.propTypes = {
   basketItem: PropTypes.object.isRequired,
   product: PropTypes.object.isRequired,
-  productId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   inventoryQuantity: PropTypes.number.isRequired,
   updateBasket: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

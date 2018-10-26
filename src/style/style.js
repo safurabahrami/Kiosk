@@ -46,3 +46,11 @@ export const customizedThemes = {
     },
   },
 };
+
+export function view_height(percentageHeight) {
+  return Math.round(window.innerHeight * (percentageHeight / 100));
+}
+
+export function view_width(percentageWidth) {
+  return Math.round(window.innerWidth * (percentageWidth / 100));
+}

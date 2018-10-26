@@ -4,16 +4,16 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import './style/index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { customizedThemes } from './style/style';
 import { store } from './redux/configureStore';
+import SelfCheckout from './components/SelfCheckout';
 
 const theme = createMuiTheme(customizedThemes);
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <App />
+      <SelfCheckout />
     </MuiThemeProvider>
   </Provider>
   ,

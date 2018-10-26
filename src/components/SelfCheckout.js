@@ -19,6 +19,7 @@ const styles = theme => ({
     backgroundColor: 'rgb(237,240,249)',
     flexWrap: 'wrap',
     overflow: 'scroll',
+    height: '100%',
   },
   basket: {
     width: '40%',
@@ -42,23 +43,20 @@ class SelfCheckout extends React.Component {
     const { classes } = this.props;
     return (
       <Paper className={classes.root}>
-        {/*
-                    render the inventory component
-                */}
+        {/**
+          * render the inventory component
+          */}
         <BasketControl />
         <div className={classes.basket}>
-
-          {/*
-                        render the Basket component
-                    */}
+          {/**
+            * render the Basket component
+            */}
           <Receipt />
-
-          {/*
-                        render the price
-                    */}
+          {/**
+            * render the price
+            */}
           <PriceBox />
         </div>
-
       </Paper>
     );
   }
