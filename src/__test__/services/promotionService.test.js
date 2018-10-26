@@ -1,6 +1,6 @@
-import { singleProductSale, groupPromotion, additionalProductDiscount } from '../promotionHelper';
+import { singleProductSale, groupPromotion, additionalProductDiscount } from '../../services/promotionService';
 
-import Money from '../Money';
+import Money from '../../Money';
 
 const expectPromoResultsToBeEqual = (res1, res2) => {
   if (res1.promoPrice === null) {

@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 
-import { applyPromotion } from '../promotionHelper';
+import { applyPromotion } from '../services/promotionService';
 import { mapProductJSONMoneyFunc } from '../utilities';
 import Money from '../Money';
 

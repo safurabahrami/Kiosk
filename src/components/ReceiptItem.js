@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TableCell, TableRow } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { getBasketItem } from '../redux/selectors';
-import { applyPromotion } from '../promotionHelper';
+import { applyPromotion } from '../services/promotionService';
 
 const styles = theme => ({
   promoCell: {

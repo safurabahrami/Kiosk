@@ -1,5 +1,5 @@
-import PromotionTypes from './types/PromotionTypes';
-import Money from './Money';
+import PromotionTypes from '../types/PromotionTypes';
+import Money from '../Money';
 
 export const applyPromotion = (promotion, basketItem) => {
   switch (promotion.type) {
