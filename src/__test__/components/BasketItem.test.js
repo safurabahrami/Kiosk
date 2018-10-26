@@ -1,16 +1,16 @@
 import React from 'react';
 import toJson from 'enzyme-to-json';
 
-import BasketItem from "../../components/BasketItem";
 import { Button } from '@material-ui/core';
+import BasketItem from '../../components/BasketItem';
 
-describe("render BasketItem", () => {
+describe('render BasketItem', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(<BasketItem.WrappedComponent
         basketItem={
           {
-            quantity:7
+            quantity: 7,
           }
         }
         product={{}}
@@ -19,22 +19,21 @@ describe("render BasketItem", () => {
     />);
   });
 
-  it("render the component", () => {
+  it('render the component', () => {
     expect(wrapper.length).toEqual(1);
   });
-  it("match snapshots", () => {
+  it('match snapshots', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 });
 
-describe("textField events when all the inventory is purchased ", () => {
+describe('textField events when all the inventory is purchased ', () => {
   let wrapper;
-  beforeEach(() => 
-  {
+  beforeEach(() => {
     wrapper = shallow(<BasketItem.WrappedComponent
         basketItem={
           {
-            quantity:7
+            quantity: 7,
           }
         }
         product={{}}
@@ -43,11 +42,11 @@ describe("textField events when all the inventory is purchased ", () => {
     />).dive();
   });
 
-  it("match snapshots", () => {
+  it('match snapshots', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
-  it("want to remove 5 items - add disable-remove enable", () => {
+  it('want to remove 5 items - add disable-remove enable', () => {
     const eventQuantity = { target: { value: 5 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     expect(wrapper.state().quantity).toEqual(5);
@@ -57,8 +56,8 @@ describe("textField events when all the inventory is purchased ", () => {
     expect(removeButton.props().disabled).toBe(false);
   });
 
-  it("want to insert 10 - add disable-change value to purchased quantity-enable remove", () => {
-    const eventQuantity = { target: { value: 10} };
+  it('want to insert 10 - add disable-change value to purchased quantity-enable remove', () => {
+    const eventQuantity = { target: { value: 10 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     expect(wrapper.state().quantity).toEqual(7);
     const addButton = wrapper.find(Button).at(1);
@@ -68,14 +67,13 @@ describe("textField events when all the inventory is purchased ", () => {
   });
 });
 
-describe("textField events When 3 of 7 inventory has been added", () => {
+describe('textField events When 3 of 7 inventory has been added', () => {
   let wrapper;
-  beforeEach(() => 
-  {
+  beforeEach(() => {
     wrapper = shallow(<BasketItem.WrappedComponent
         basketItem={
           {
-            quantity:3
+            quantity: 3,
           }
         }
         product={{}}
@@ -84,7 +82,7 @@ describe("textField events When 3 of 7 inventory has been added", () => {
     />).dive();
   });
 
-  it("change textbox to 4 - add enable remove disable", () => {
+  it('change textbox to 4 - add enable remove disable', () => {
     const eventQuantity = { target: { value: 4 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     const addButton = wrapper.find(Button).at(1);
@@ -94,8 +92,8 @@ describe("textField events When 3 of 7 inventory has been added", () => {
     expect(removeButton.props().disabled).toBe(true);
   });
 
-  it("change textbox to 2 -  add and remove enable", () => {
-    const eventQuantity = { target: { value: 2} };
+  it('change textbox to 2 -  add and remove enable', () => {
+    const eventQuantity = { target: { value: 2 } };
     wrapper.find('TextField').at(0).simulate('change', eventQuantity);
     const addButton = wrapper.find(Button).at(1);
     const removeButton = wrapper.find(Button).at(0);
@@ -105,14 +103,13 @@ describe("textField events When 3 of 7 inventory has been added", () => {
   });
 });
 
-describe("textField events When 0 of 7 inventory has been added", () => {
+describe('textField events When 0 of 7 inventory has been added', () => {
   let wrapper;
-  beforeEach(() => 
-  {
+  beforeEach(() => {
     wrapper = shallow(<BasketItem.WrappedComponent
         basketItem={
           {
-            quantity:0
+            quantity: 0,
           }
         }
         product={{}}
@@ -121,7 +118,7 @@ describe("textField events When 0 of 7 inventory has been added", () => {
     />).dive();
   });
 
-  it("not changing the texbox - add enable remove disable", () => {
+  it('not changing the texbox - add enable remove disable', () => {
     expect(wrapper.state().quantity).toEqual(1);
     const addButton = wrapper.find(Button).at(1);
     const removeButton = wrapper.find(Button).at(0);

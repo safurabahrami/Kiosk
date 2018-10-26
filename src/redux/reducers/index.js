@@ -5,8 +5,8 @@ import loading from './LoadingReducer';
 import basket from './BasketReducer';
 
 const RootReducer = combineReducers({
-    products,
-    loading,
-    basket
+  products,
+  loading,
+  basket,
 });
 export default RootReducer;

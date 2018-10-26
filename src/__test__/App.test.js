@@ -4,14 +4,14 @@ import toJson from 'enzyme-to-json';
 
 import App from '../App';
 
-const mockStore = configureStore()
-const store = mockStore({})
+const mockStore = configureStore();
+const store = mockStore({});
 
 describe('renders without crashing', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<App store={store}/>);
+    wrapper = shallow(<App store={store} />);
   });
 
   it('+++ render the component', () => {
