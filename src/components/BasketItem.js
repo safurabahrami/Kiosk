@@ -80,55 +80,52 @@ class BasketItem extends React.Component {
       const remainedNumberInventory = this.calcRemainNumberInventory(inventoryQuantity, basketItem);
       return (
         <div className={classes.root} key={productId}>
-
           <Typography variant="subtitle1" className={classes.productTitle}>
             {product.name}(s)
           </Typography>
-
           <Button
-                    aria-label="Add"
-                    variant="fab"
-                    className={classes.button}
-                    color="secondary"
-                    disabled={!validateRemove(quantity, basketItem)}
-                    onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
-                >
+            aria-label="Add"
+            variant="fab"
+            className={classes.button}
+            color="secondary"
+            disabled={!validateRemove(quantity, basketItem)}
+            onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
+          >
             <RemoveIcon />
           </Button>
           <TextField
-                    id="with-adornment"
-                    placeholder="item"
-                    className={classNames(classes.margin, classes.textField, { inputType: classes.inputStyle })}
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">#</InputAdornment>,
-                      className: classes.textFieldFormLabel,
-                    }}
-                    type="number"
-                    value={quantity}
-                    helperText={helperText}
-                    onChange={(event) => {
-                      if (event.target.value >= 0 && (event.target.value <= remainedNumberInventory
-                            || (basketItem && event.target.value <= basketItem.quantity))
-                      ) {
-                        this.setState({ helperText: '' });
-                        return this.handleChange(event.target.value);
-                      }
-                      this.setState({ helperText: `only ${remainedNumberInventory} items left` });
-                      const maxItem = Math.max(basketItem.quantity, remainedNumberInventory);
-                      return this.handleChange(maxItem);
-                    }}
-                />
+            id="with-adornment"
+            placeholder="item"
+            className={classNames(classes.margin, classes.textField, { inputType: classes.inputStyle })}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">#</InputAdornment>,
+              className: classes.textFieldFormLabel,
+            }}
+            type="number"
+            value={quantity}
+            helperText={helperText}
+            onChange={(event) => {
+              if (event.target.value >= 0 && (event.target.value <= remainedNumberInventory
+                    || (basketItem && event.target.value <= basketItem.quantity))
+              ) {
+                this.setState({ helperText: '' });
+                return this.handleChange(event.target.value);
+              }
+              this.setState({ helperText: `only ${remainedNumberInventory} items left` });
+              const maxItem = Math.max(basketItem.quantity, remainedNumberInventory);
+              return this.handleChange(maxItem);
+            }}
+          />
           <Button
-                    color="primary"
-                    aria-label="Add"
-                    variant="fab"
-                    className={classes.button}
-                    disabled={!validateAdd(quantity, basketItem, inventoryQuantity)}
-                    onClick={() => this.onClickAddToBasket(basketItem, productId, quantity)}
-                >
+            color="primary"
+            aria-label="Add"
+            variant="fab"
+            className={classes.button}
+            disabled={!validateAdd(quantity, basketItem, inventoryQuantity)}
+            onClick={() => this.onClickAddToBasket(basketItem, productId, quantity)}
+          >
             <AddIcon />
           </Button>
-
         </div>
       );
     }

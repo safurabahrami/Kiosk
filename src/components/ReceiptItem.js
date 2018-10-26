@@ -55,13 +55,15 @@ const ReceiptItem = ({ basketItem, classes }) => {
   return (
     <Fragment>
       <RenderReceiptRow name={basketItem.productName} priceNQuantity={`${basketItem.price.toString()} x ${basketItem.quantity}`} total={basketItem.total.toString()} hasPromo={basketItem.promo && !afterPromotion.promoTotal.isZero() ? true : false} key="regular" classes={classes} />
-      { basketItem.promo && !afterPromotion.promoTotal.isZero()
-                && <RenderReceiptRow
-                    name={afterPromotion.promoTitle}
-                    priceNQuantity={afterPromotion.promoPrice ? afterPromotion.promoPrice.toString() : ''}
-                    total={afterPromotion.promoTotal.toString()}
-                    isPromo={true} classes={classes} />
-            }
+      { basketItem.promo
+          && !afterPromotion.promoTotal.isZero()
+          && <RenderReceiptRow
+                name={afterPromotion.promoTitle}
+                priceNQuantity={afterPromotion.promoPrice ? afterPromotion.promoPrice.toString() : ''}
+                total={afterPromotion.promoTotal.toString()}
+                isPromo={true} classes={classes}
+              />
+      }
     </Fragment>
 
   );
