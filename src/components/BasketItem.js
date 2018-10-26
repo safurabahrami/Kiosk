@@ -9,13 +9,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { getBasketItemByProductId, getProductById, getProductInventoryByProductId } from '../redux/selectors';
 import * as Actions from '../redux/actionCreators/Actions'
 import { validateAdd, validateRemove} from './BasketControlHelper'
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const styles = theme => ({
     root: {
       display: 'flex',
       flexWrap: 'wrap',
       flexDirection: 'row',
-      justifyContent: 'space-around'
+      justifyContent: 'space-around',
+      alignItems: 'center'
     },
     margin: {
       margin: theme.spacing.unit,
@@ -24,12 +27,17 @@ const styles = theme => ({
       marginTop: theme.spacing.unit * 3,
     },
     textField: {
-      flexBasis: 110,
+      flexBasis: 60,
     },
     productTitle: {
-        width: '25%',
+        width: '40%',
         textAlign: 'left'
-    }
+    },
+    button: {
+        margin: theme.spacing.unit,
+        width: '40px',
+        height: '40px'
+    },
   });
 
 
@@ -72,12 +80,24 @@ class BasketItem extends React.Component {
                 <Typography variant="subtitle1" className={classes.productTitle}>
                     {product.name}(s)
                 </Typography>
+
+                <Button
+                    aria-label="Add"
+                    variant="fab"
+                    className={classes.button}
+                    color="secondary"
+                    disabled={!validateRemove(quantity, basketItem)}
+                    onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
+                >
+                    <RemoveIcon />
+                </Button>
                 <TextField
                     id="with-adornment"
                     placeholder="quantity"
-                    className={classNames(classes.margin, classes.textField)}
+                    className={classNames(classes.margin, classes.textField, {inputType:classes.inputStyle})}
                     InputProps={{
                         startAdornment: <InputAdornment position="start">#</InputAdornment>,
+                        className: classes.textFieldFormLabel,
                     }}
                     type="number"
                     value={quantity}
@@ -95,21 +115,16 @@ class BasketItem extends React.Component {
                     }}
                 />
                 <Button
-                    variant="contained"
                     color="primary"
-                    style={{ minWidth: '180px' }}
+                    aria-label="Add"
+                    variant="fab"
+                    className={classes.button}
                     disabled={!validateAdd(quantity, basketItem, inventoryQuantity)}
                     onClick={() => this.onClickAddToBasket(basketItem, productId, quantity)}
-                >Add
+                >
+                    <AddIcon/>
                 </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ minWidth: '180px' }}
-                    disabled={!validateRemove(quantity, basketItem)}
-                    onClick={() => this.onClickRemoveFromBasket(basketItem, productId, quantity)}
-                >Remove
-                </Button>  
+  
             </div>
         );
       }    

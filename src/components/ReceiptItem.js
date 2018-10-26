@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { TableCell, TableRow} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
+import { getBasketItem } from '../redux/selectors';
 import { applyPromotion } from '../promotionHelper';
 
 const styles = theme => ({
@@ -24,7 +25,7 @@ const styles = theme => ({
 const RenderReceiptRow = ({name, priceNQuantity, total, isPromo, hasPromo, classes}) => {
     return (
         <TableRow className={hasPromo ? classes.noBorderRow : classes.withBorderRow} >
-            <TableCell className={isPromo ? classes.promoCell : classes.simpleCell} scope="row">
+            <TableCell style={{width:'54%'}} className={isPromo ? classes.promoCell : classes.simpleCell} >
                 {name}
             </TableCell>
             <TableCell className={classes.simpleCell} numeric>{priceNQuantity}</TableCell>
@@ -70,8 +71,10 @@ const ReceiptItem = ({ basketItem, classes }) => {
 ReceiptItem.propTypes = {
     basketItem: PropTypes.object.isRequired
 }
-
-export default withStyles(styles)(ReceiptItem);
+const mapStateToProps = (state,props) => ({
+    basketItem: getBasketItem(state, props.productId)
+});
+export default connect(mapStateToProps)(withStyles(styles)(ReceiptItem));
 
 
 

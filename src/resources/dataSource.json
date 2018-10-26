@@ -23,6 +23,12 @@
             "name": "Sour Cherry",
             "price": 2.5,
             "inventory": 15
+        },
+        {
+            "id": 5,
+            "name": "Tomato",
+            "price": 1,
+            "inventory": 7
         }
     ],
     "scanned":[
@@ -50,6 +56,11 @@
             "id": 5,
             "productId": 2,
             "quantity": 1
+        },
+        {
+            "id": 6,
+            "productId": 5,
+            "quantity": 2
         }
     ],
     "promotions":[

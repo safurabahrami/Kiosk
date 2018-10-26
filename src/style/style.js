@@ -32,6 +32,17 @@ export const customizedThemes = {
           borderRadius: '2px',
           padding: '8px',
         },
+      },
+      MuiTableRow: {
+        root: {
+          height: '35px',
+        },
+      },
+      MuiTableCell: {
+        root: {
+          padding: '10px 20px 10px 20px',
+          maxWidth: '250px',
+        },
       }
     },
   };

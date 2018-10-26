@@ -12,10 +12,21 @@ import PriceBox from './PriceBox';
 const styles = theme => ({
     root: {
       width: '100%',
-      marginTop: theme.spacing.unit * 3,
       display: 'flex',
       justifyContent: 'center',
-      flexDirection: 'column'
+      flexDirection: 'row',
+      margin: '0 auto',
+      backgroundColor: 'rgb(237,240,249)',
+      flexWrap: 'wrap',
+      overflow: 'scroll'
+    },
+    basket: {
+        width: '40%',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        padding:'16px',
+        flex: '0 0 auto',
+        flexGrow:1
     }
 });
 
@@ -34,14 +45,19 @@ class SelfCheckout extends React.Component {
                     render the inventory component
                 */}
                 <BasketControl />
-                {/*
-                    render the Basket component
-                */}
-                <Receipt />
-                {/*
-                    render the price
-                */}
-                <PriceBox/>
+                <div className={classes.basket}>
+
+                    {/*
+                        render the Basket component
+                    */}
+                    <Receipt />
+                
+                    {/*
+                        render the price
+                    */}
+                    <PriceBox/>
+                </div>
+
             </Paper>
         );
     }

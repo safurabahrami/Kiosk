@@ -27,11 +27,10 @@ RenderPriceRow.propTypes = {
 
 const styles = theme => ({
     root: {
-        width: '70%',
-        marginTop: theme.spacing.unit * 2,
-        marginBottom: theme.spacing.unit * 2,
         alignSelf: 'center',
-        padding: theme.spacing.unit * 2
+        padding: theme.spacing.unit * 2,
+        flex: '0 0 auto',
+        height: '120px'
     },
 });
 

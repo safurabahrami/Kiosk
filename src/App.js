@@ -7,10 +7,8 @@ import SelfCheckout from './components/SelfCheckout'
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <SelfCheckout />
-        </header>
+      <div className="App" style={{height: '100%', display: 'flex'}}>
+        <SelfCheckout />
       </div>
     );
   }
