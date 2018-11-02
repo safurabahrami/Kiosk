@@ -1,5 +1,5 @@
-# Front-end Coding Exercise
-Simple Self Checkout App
+# Simple Self Checkout App
+
 ![Demo](https://github.com/safurabahrami/Kiosk/raw/master/kiosk.gif)
 
 ## Getting Started
